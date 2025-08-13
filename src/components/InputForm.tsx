@@ -1,27 +1,25 @@
 import { useState } from 'react';
 
-type Props = {
-    onSolve: (a: number, b: number, c: number) => void;
-};
+//Collect a, b, and c from the user
+//TODO: Pass input into solver 
 
-export default function InputForm({onSolve}: Props){
-
+function InputForm(){
+    //Coefficients as strings till parsed
     const [a, setA] = useState('');
     const [b, setB] = useState('');
     const [c, setC] = useState('');
 
-
+//Handles form submission
 const handleSubmit = (e: React.FormEvent) => {
 
     e.preventDefault();
+    //Convert strings to integers
+    const intA = parseInt = (a, 10);
+    const intB = parseInt = (b, 10);
+    const intC = parseInt = (c, 10);
 
-    const parsedA = parseInt = (a, 10);
-    const parsedB = parseInt = (b, 10);
-    const parsedC = parseInt = (c, 10);
-
-    if (!isNaN(parsedA) && !isNaN(parsedB) && !isNaN(parsedC)){
-        onSolve(parsedA, parsedB, parsedC);
-    }
+    //Placeholder result:
+    console.log('Submitted:', intA, intB, intC)
 };
 
 return (
@@ -51,3 +49,5 @@ return (
     </form>
     );
 }
+
+export default InputForm;
