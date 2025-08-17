@@ -17,3 +17,37 @@ function extendedGCD(a: number, b: number): [number, number, number]{
     return [gcd, x, y];
 }
 
+//Main solver, finds particular and general solution
+export function solveLinearDiophantine(a: number, b: number, c:number){
+    //Find gcd and set of coefficients for a and b
+    const [g, x0, y0] = extendedGCD(Math.abs(a), Math.abs(b));  
+
+    //Check if c is divisible by gcf, if not then no solutions exist
+    if (c % g! === 0){
+        return{
+            hasSolution: false,
+            message: 'No integer solutions exist.'
+        };
+    }
+
+    //Scale particular solution in respect to c
+    const scale = c / g;
+    let x = x0 * scale;
+    let y = y0 * scale;
+
+    //Adjust if a or b were negative
+    if (a < 0) x = -x;
+    if (b < 0) y = -y;
+    
+    //General solutions
+    const generalX = `${x} + ${(b / g)} * t`;
+    const generalY = `${y} + ${(a / g)} * t`;
+
+    return{
+        hasSolution: true,
+        gcd: g,
+        particular: {x, y},
+        general: {x: generalX, y: generalY},
+        message: `Solutions found, t can be any integer integers.`
+    }
+}
