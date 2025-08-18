@@ -20,21 +20,21 @@ function extendedGCD(a: number, b: number): [number, number, number]{
 //Main solver, finds particular and general solution
 export function solveLinearDiophantine(a: number, b: number, c:number){
     //Account for special case
-    if (a === 0 && b === 0) {
-        return {
-            hasSolution: c === 0,
-            gcd: 0,
-            message: c === 0
-            ? "Infinite solutions (0x + 0y = 0)"
-            : "No solution (0x + 0y = c, c ≠ 0)"
-        };
-    }
+    // if (a === 0 && b === 0) {
+    //     return {
+    //         hasSolution: c === 0,
+    //         gcd: 0,
+    //         message: c === 0
+    //         ? "Infinite solutions (0x + 0y = 0)"
+    //         : "No solution (0x + 0y = c, c ≠ 0)"
+    //     };
+    // }
 
     //Find gcd and set of coefficients for a and b
     const [g, x0, y0] = extendedGCD(Math.abs(a), Math.abs(b));  
 
     //Check if c is divisible by gcd, if not then no solutions exist
-    if (c % g! === 0){
+    if (c % g !== 0){
         return{
             hasSolution: false,
             message: 'No integer solutions exist.'
