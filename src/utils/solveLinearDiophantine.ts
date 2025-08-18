@@ -12,7 +12,7 @@ function extendedGCD(a: number, b: number): [number, number, number]{
 
     //Update x and y as per the result of the recursion
     const x = y1;
-    const y = x1 - Math.floor(a/b) * y1;
+    const y = x1 - Math.floor(a / b) * y1;
 
     return [gcd, x, y];
 }
@@ -34,10 +34,9 @@ export function solveLinearDiophantine(a: number, b: number, c:number){
     const [g, x0, y0] = extendedGCD(Math.abs(a), Math.abs(b));  
 
     //Check if c is divisible by gcd, if not then no solutions exist
-    if (c % g !== 0){
+    if (c % g! === 0){
         return{
             hasSolution: false,
-            gcd : g,
             message: 'No integer solutions exist.'
         };
     }
