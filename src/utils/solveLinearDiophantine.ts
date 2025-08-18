@@ -22,7 +22,7 @@ export function solveLinearDiophantine(a: number, b: number, c:number){
     //Find gcd and set of coefficients for a and b
     const [g, x0, y0] = extendedGCD(Math.abs(a), Math.abs(b));  
 
-    //Check if c is divisible by gcf, if not then no solutions exist
+    //Check if c is divisible by gcd, if not then no solutions exist
     if (c % g! === 0){
         return{
             hasSolution: false,
