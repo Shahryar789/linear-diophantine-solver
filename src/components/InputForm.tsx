@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { solveLinearDiophantine } from '../utils/solveLinearDiophantine';
 
 //Collect a, b, and c from the user
 //TODO: Pass input into solver 
@@ -9,17 +10,21 @@ function InputForm(){
     const [b, setB] = useState('');
     const [c, setC] = useState('');
 
+//Result state for solver
+const [result, setResult] = useState<any>(null);
+
 //Handles form submission
 const handleSubmit = (e: React.FormEvent) => {
-
     e.preventDefault();
+    
     //Convert strings to integers
     const intA = parseInt = (a, 10);
     const intB = parseInt = (b, 10);
     const intC = parseInt = (c, 10);
 
-    //Placeholder result:
-    console.log('Submitted:', intA, intB, intC)
+    //Call solver functtion
+    const solution = solveLinearDiophantine(intA, intB, intC);
+    setResult(solution);
 };
 
 return (
