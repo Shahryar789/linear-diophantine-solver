@@ -63,10 +63,16 @@ return (
           <p>
           <strong>gcd:</strong> {result.gcd}
           </p>
+          {result.particular ? (
           <p>
             <strong>Particular solution:</strong> (x, y) = (
             {result.particular.x}, {result.particular.y})
           </p>
+        ): (
+          <p>
+            <strong>Particular solution:</strong> Infinitely integer pairs
+          </p>
+        )}
           <p>
             <strong>General solution:</strong>
           </p>
