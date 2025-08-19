@@ -4,7 +4,8 @@
 export type DiophantineResult = {
     hasSolution: boolean,
     gcd: number;
-    particular?: {x: number; y: number};
+    particular?: {x: number; y: number}
+    step?: {dx: number; dy: number}
     general?: {x: string; y: string};
     message: string;
 };
@@ -67,17 +68,18 @@ export function solveLinearDiophantine(a: number, b: number, c:number): Diophant
     if (b < 0) particularY = -particularY;
     
     //General solution steps
-    const stepX = b / g;
-    const stepY = a / g;
+    const dx = b / g;
+    const dy = a / g;
 
     //Build general solution
-    const generalX = `${particularX} + ${stepX}t`
-    const generalY = `${particularY} - ${stepY}t`
+    const generalX = `${particularX} + (${dx}(t`
+    const generalY = `${particularY} - (${dy})t`
 
     return{
         hasSolution: true,
         gcd: g,
         particular: {x: particularX, y: particularY},
+        step: {dx, dy},
         general: {x: generalX, y: generalY},
         message: "General solution parameterized by integer t"
     }
