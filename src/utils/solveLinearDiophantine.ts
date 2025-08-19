@@ -72,7 +72,7 @@ export function solveLinearDiophantine(a: number, b: number, c:number): Diophant
 
     //Build general solution
     const generalX = `${particularX} + ${stepX}t`
-    const generalY = `${particularY} + ${stepY}t`
+    const generalY = `${particularY} - ${stepY}t`
 
     return{
         hasSolution: true,
