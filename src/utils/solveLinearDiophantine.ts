@@ -53,28 +53,32 @@ export function solveLinearDiophantine(a: number, b: number, c:number): Diophant
         return{
             hasSolution: false,
             gcd: g,
-            message: 'No integer solutions exist.'
+            message: "No integer solutions exist."
         };
     }
 
     //Scale particular solution in respect to c / g
     const scale = c / g;
-    let x = x0 * scale;
-    let y = y0 * scale;
+    let particularX = x0 * scale;
+    let particularY = y0 * scale;
 
     //Adjust if a or b were negative
-    if (a < 0) x = -x;
-    if (b < 0) y = -y;
+    if (a < 0) particularX = -particularX;
+    if (b < 0) particularY = -particularY;
     
     //General solution steps
-    const stepX = `${x} + ${(b / g)} * t`;
-    const stepY = `${y} - ${(a / g)} * t`;
+    const stepX = b / g;
+    const stepY = a / g;
+
+    //Build general solution
+    const generalX = `${particularX} + ${stepX}t`
+    const generalY = `${particularY} + ${stepY}t`
 
     return{
         hasSolution: true,
         gcd: g,
-        particular: {x, y},
-        general: {x: `${x} + ${stepX} * t`, y: `${y} - ${stepY} * t`},
-        message: `Solutions found, t can be any integer.`
+        particular: {x: particularX, y: particularY},
+        general: {x: generalX, y: generalY},
+        message: "General solution parameterized by integer t"
     }
 }
