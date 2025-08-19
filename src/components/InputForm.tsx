@@ -70,7 +70,7 @@ return (
           </p>
         ): (
           <p>
-            <strong>Particular solution:</strong> Infinitely integer pairs
+            <strong>Particular solution:</strong> Infinitely integer pairs.
           </p>
         )}
           <p>
