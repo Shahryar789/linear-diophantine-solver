@@ -27,7 +27,7 @@ function extendedGCD(a: number, b: number): [number, number, number]{
 }
 
 //Main solver, finds particular and general solution
-export function solveLinearDiophantine(a: number, b: number, c:number){
+export function solveLinearDiophantine(a: number, b: number, c:number): DiophantineResult {
     //Account for special case
     if (a === 0 && b === 0) {
         if (c === 0) {
@@ -52,6 +52,7 @@ export function solveLinearDiophantine(a: number, b: number, c:number){
     if (c % g !== 0){
         return{
             hasSolution: false,
+            gcd: g,
             message: 'No integer solutions exist.'
         };
     }
