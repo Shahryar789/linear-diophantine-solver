@@ -1,94 +1,68 @@
 import { useState } from 'react';
-import { solveLinearDiophantine } from '../utils/solveLinearDiophantine';
-
+import { solveLinearDiophantine, type DiophantineResult } from '../utils/solveLinearDiophantine';
+import { formatExpression } from '../utils/format';
 //Collect a, b, and c from the user
 //TODO: Pass input into solver 
 
 function InputForm(){
     //Coefficients as strings till parsed
-    const [a, setA] = useState('');
-    const [b, setB] = useState('');
-    const [c, setC] = useState('');
+    const [a, setA] = useState(0);
+    const [b, setB] = useState(0);
+    const [c, setC] = useState(0);
 
-//Result state for solver
-const [result, setResult] = useState<any>(null);
+//Store solver result
+const [result, setResult] = useState<DiophantineResult | null>(null);
 
-//Handles form submission
-const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    //Convert strings to integers
-    const intA = parseInt(a, 10);
-    const intB = parseInt(b, 10);
-    const intC = parseInt(c, 10);
-
-    //Call solver functtion
-    const solution = solveLinearDiophantine(intA, intB, intC);
-    setResult(solution);
-};
+//Runs solver when "Solve" button is clicked
+const handleSolve = () => setResult(solveLinearDiophantine(a, b, c));
 
 return (
-    <div>
-    {/*Input form for a, b, and c*/}
-    <form onSubmit={handleSubmit} className = "input-form">
-        <input
-        type = "number"
-        placeholder = "a"
-        value = {a}
-        onChange = {(e) => setA(e.target.value)}
-        required
-        />
-        <input
-        type = "number"
-        placeholder = "b"
-        value = {b}
-        onChange = {(e) => setB(e.target.value)}
-        required
-        />
-        <input
-        type = "number"
-        placeholder = "c"
-        value = {c}
-        onChange = {(e) => setC(e.target.value)}
-        required
-        />
-        <button type = "submit"> Solve </button>
-    </form>
+  <div>
+    <h2>Linear Diophantine Solver</h2>
 
-    {/*Display solver results*/}
+    {/*Input form for a, b, and c*/}
+    <label>
+     a: <input type = "number" value = {a} onChange = {e => setA(Number(e.target.value))} /> 
+    </label>
+    <br />
+    <label>
+      b: <input type = "number" value = {b} onChange = {e => setB(Number(e.target.value))} /> 
+    </label>
+    <br />
+    <label>
+      c: <input type = "number" value = {c} onChange = {e => setC(Number(e.target.value))} /> 
+    </label>
+    <br />
+
+    {/*Solve button*/}
+    <button onClick = {handleSolve}>Solve</button>
+
+    {/* Render solver results */}
     {result && (
-      <div style={{marginTop: "20px"}}>
-       {result.hasSolution ? (
-        <>
+      <div>
+        <h3>Result</h3>
+        <p>gcd: {result.gcd}</p>
+        <p>{result.message}</p>
+
+        {/*Particular solution (x₀, y₀) */}
+        {result.particular && (
           <p>
-          <strong>gcd:</strong> {result.gcd}
-          </p>
-          {result.particular ? (
-          <p>
-            <strong>Particular solution:</strong> (x, y) = (
-            {result.particular.x}, {result.particular.y})
-          </p>
-        ): (
-          <p>
-            <strong>Particular solution:</strong> Infinitely integer pairs.
+            Particular solution: (x, y) = ({result.particular.x}, {result.particular.y})
           </p>
         )}
-          <p>
-            <strong>General solution:</strong>
-          </p>
-          <p>x = {result.general.x}</p>
-          <p>y = {result.general.y}</p>
-          <p>
-          <em>{result.message}</em>
-          </p>
-        </>
-            ) : (
-            <p>{result.message}</p>
-            )}
-          </div>
+
+        {/* General solution using parameter t */}
+        {result.step && result.particular && (
+          <>
+          <p>General solution:</p>
+          <p>x = {formatExpression(result.particular.x, result.step.dx)}</p>
+          <p>y = {formatExpression(result.particular.y, result.step.dy)}</p>
+          </>
         )}
       </div>
-    );
+     )}
+   </div>
+  );
 }
 
 export default InputForm;
