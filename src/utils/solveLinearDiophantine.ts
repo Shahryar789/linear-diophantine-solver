@@ -72,8 +72,8 @@ export function solveLinearDiophantine(a: number, b: number, c:number): Diophant
     const dy = a / g;
 
     //Build general solution
-    const generalX = `${particularX} + (${dx}(t`
-    const generalY = `${particularY} - (${dy})t`
+    const generalX = `${particularX} + ${dx}t`
+    const generalY = `${particularY} - ${dy}t`
 
     return{
         hasSolution: true,
