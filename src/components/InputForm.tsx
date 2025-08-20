@@ -6,15 +6,27 @@ import { formatExpression } from '../utils/format';
 
 function InputForm(){
     //Coefficients as strings till parsed
-    const [a, setA] = useState(0);
-    const [b, setB] = useState(0);
-    const [c, setC] = useState(0);
+    const [a, setA] = useState('');
+    const [b, setB] = useState('');
+    const [c, setC] = useState('');
 
 //Store solver result
 const [result, setResult] = useState<DiophantineResult | null>(null);
 
 //Runs solver when "Solve" button is clicked
-const handleSolve = () => setResult(solveLinearDiophantine(a, b, c));
+const handleSolve = () => {
+  if (a.trim() === '' || b.trim() === '' || c.trim() === '')
+    setResult(null);
+    return;
+}
+
+//Convert to numbers
+const numA = Number(a);
+const numB = Number(b);
+const numC = Number(c);
+
+//Run solver
+setResult(solveLinearDiophantine(numA, numB, numC));
 
 return (
   <div>
@@ -22,15 +34,30 @@ return (
 
     {/*Input form for a, b, and c*/}
     <label>
-     a: <input type = "number" value = {a} onChange = {e => setA(Number(e.target.value))} /> 
+     a: {''}
+     <input
+      type = "number"
+      value = {a} 
+      onChange = {(e) => setA(e.target.value)}
+      />
     </label>
     <br />
     <label>
-      b: <input type = "number" value = {b} onChange = {e => setB(Number(e.target.value))} /> 
+      b: {''}
+     <input
+      type = "number"
+      value = {b} 
+      onChange = {(e) => setB(e.target.value)}
+      />
     </label>
     <br />
     <label>
-      c: <input type = "number" value = {c} onChange = {e => setC(Number(e.target.value))} /> 
+       c: {''}
+     <input
+      type = "number"
+      value = {c} 
+      onChange = {(e) => setC(e.target.value)}
+      />
     </label>
     <br />
 
