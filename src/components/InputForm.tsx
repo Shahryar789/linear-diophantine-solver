@@ -26,7 +26,8 @@ const numB = Number(b);
 const numC = Number(c);
 
 //Run solver
-setResult(solveLinearDiophantine(numA, numB, numC));
+const res = solveLinearDiophantine(numA, numB, numC);
+setResult(res);
 
 return (
   <div>
@@ -74,7 +75,7 @@ return (
         {/*Particular solution (x₀, y₀) */}
         {result.particular && (
           <p>
-            Particular solution: (x, y) = ({result.particular.x}, {''} {result.particular.y})
+            Particular solution: (x, y) = ({result.particular.x}, {result.particular.y})
           </p>
         )}
 
