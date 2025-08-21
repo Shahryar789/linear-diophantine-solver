@@ -40,6 +40,7 @@ return (
       type = "number"
       value = {a} 
       onChange = {(e) => setA(e.target.value)}
+      placeholder = "Enter a"
       />
     </label>
     <br />
@@ -49,6 +50,7 @@ return (
       type = "number"
       value = {b} 
       onChange = {(e) => setB(e.target.value)}
+      placeholder = "Enter b"
       />
     </label>
     <br />
@@ -58,6 +60,7 @@ return (
       type = "number"
       value = {c} 
       onChange = {(e) => setC(e.target.value)}
+      placeholder = "Enter c"
       />
     </label>
     <br />
