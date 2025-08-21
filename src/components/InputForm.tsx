@@ -74,7 +74,7 @@ return (
         {/*Particular solution (x₀, y₀) */}
         {result.particular && (
           <p>
-            Particular solution: (x, y) = ({result.particular.x}, {result.particular.y})
+            Particular solution: (x, y) = ({result.particular.x}, {''} {result.particular.y})
           </p>
         )}
 
