@@ -15,19 +15,20 @@ const [result, setResult] = useState<DiophantineResult | null>(null);
 
 //Runs solver when "Solve" button is clicked
 const handleSolve = () => {
-  if (a.trim() === '' || b.trim() === '' || c.trim() === '')
+  if (a.trim() === '' || b.trim() === '' || c.trim() === '') {
     setResult(null);
     return;
-}
+  }
 
-//Convert to numbers
-const numA = Number(a);
-const numB = Number(b);
-const numC = Number(c);
+  //Convert to numbers
+  const numA = Number(a);
+  const numB = Number(b);
+  const numC = Number(c);
 
-//Run solver
-const res = solveLinearDiophantine(numA, numB, numC);
-setResult(res);
+  //Run solver
+  const res = solveLinearDiophantine(numA, numB, numC);
+  setResult(res);
+};
 
 return (
   <div>
