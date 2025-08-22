@@ -1,17 +1,26 @@
 //Improves the formatting of displayed solutions
 
-export function formatExpression(base: number, coefficient: number): string {
-    //Return base constant if no coefficient
-    if (coefficient === 0)
-        return `${base}`;
+//Formats linear expressions of the form "constant + coefficient * parameter"
+export function formatLinearExpression(constant: number, coefficient: number, parameter: "t"): string {
+    const parts: string[] = [];
 
-    //Case handling for 1 and -1 coefficients
-    const coefficientString = coefficient === 1 ? "t" : coefficient === -1 ? "-t" : `${coefficient}t`;
+    //Constant term
+    if (constant !== 0) {
+        parts.push(constant.toString());
+    }
 
-    //Return coefficient if base is 0
-    if (base === 0)
-        return coefficientString;
+    //Coefficient term
+    if (coefficient !== 0) {
+        let coefficientString = "";
+        if (coefficient === 1) coefficientString = "";
+        else if (coefficient === -1) coefficientString = "-";
+        else coefficientString = coefficient.toString();
 
-    //In all other scenarios join base and coefficients with their respectives signs
-    return coefficient > 0 ? `${base} + ${coefficientString}` : `${base} - ${Math.abs(coefficient)}t`;
+        parts.push(coefficientString + parameter);
+    }
+
+    if (parts.length === 0) return "0";
+
+    //Join the expression together with appropriate signs
+    return parts.join(" + ").replace(/\+\s-/, "- ");
 }
