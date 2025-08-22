@@ -25,6 +25,6 @@ export function formatLinearExpression(constant: number, coefficient: number, pa
     return parts.join(" + ").replace(/\+\s-/, "- ");
 }
 //Format a 2D general solution in vector form
-export function formatVectorSolution2(x0: number, y0: number, dx: number, dy: number): string {
+export function formatVectorSolution2D(x0: number, y0: number, dx: number, dy: number): string {
     return `(x, y) = (${x0}, ${y0}) + t(${dx}, ${dy})`;
 }
