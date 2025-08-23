@@ -1,7 +1,7 @@
 //Improves the formatting of displayed solutions
 
 //Formats linear expressions of the form "constant + coefficient * parameter"
-export function formatLinearExpression(constant: number, coefficient: number, parameter: "t"): string {
+export function formatLinearExpression(constant: number, coefficient: number, parameter: string = "t"): string {
     const parts: string[] = [];
 
     //Constant term

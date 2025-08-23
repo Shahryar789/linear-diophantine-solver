@@ -1,12 +1,14 @@
 //Solves ax + by = c
 //Incorporates the Extended Euclidean Algorithm
 
+import { formatLinearExpression, formatVectorSolution2D } from "./format";
+
 export type DiophantineResult = {
     hasSolution: boolean,
     gcd: number;
     particular?: {x: number; y: number}
     step?: {dx: number; dy: number}
-    general?: {x: string; y: string};
+    general?: {x: string; y: string; vector: string};
     message: string;
 };
 
@@ -28,14 +30,14 @@ function extendedGCD(a: number, b: number): [number, number, number]{
 }
 
 //Main solver, finds particular and general solution
-export function solveLinearDiophantine(a: number, b: number, c:number): DiophantineResult {
+export function solveLinearDiophantine(a: number, b: number, c: number): DiophantineResult {
     //Account for special case
     if (a === 0 && b === 0) {
         if (c === 0) {
             return {
                 hasSolution: true,
                 gcd: 0,
-                general: {x: "any integer (t)", y: "any integer (s)"},
+                general: {x: "any integer", y: "any integer", vector: "(x, y) = (t, s)"},
                 message: "Infinitely many solutions: x and y can be any integers.",
             }
         }
@@ -69,18 +71,19 @@ export function solveLinearDiophantine(a: number, b: number, c:number): Diophant
     
     //General solution steps
     const dx = b / g;
-    const dy = -a / g;
+    const dy = a / g;
 
     //Build general solution
-    const generalX = `${particularX} + ${dx}t`
-    const generalY = `${particularY} + ${dy}t`
+    const generalX = formatLinearExpression(particularX, dx, "t");
+    const generalY = formatLinearExpression(particularY, -dy, "t");
+    const vectorForm = formatVectorSolution2D(particularX, particularY, dx, -dy);
 
     return{
         hasSolution: true,
         gcd: g,
         particular: {x: particularX, y: particularY},
-        step: {dx, dy},
-        general: {x: generalX, y: generalY},
+        step: {dx, dy: -dy},
+        general: {x: generalX, y: generalY, vector: vectorForm},
         message: "General solution parameterized by integer t"
     }
 }
