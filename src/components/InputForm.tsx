@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { solveLinearDiophantine, type DiophantineResult } from '../utils/solveLinearDiophantine';
-import { formatExpression } from '../utils/format';
+import { formatLinearExpression } from '../utils/format';
 //Collect a, b, and c from the user
 //TODO: Pass input into solver 
 
@@ -87,8 +87,8 @@ return (
         {result.step && result.particular && (
           <>
           <p>General solution:</p>
-          <p>x = {formatExpression(result.particular.x, result.step.dx)}</p>
-          <p>y = {formatExpression(result.particular.y, result.step.dy)}</p>
+          <p>x = {formatLinearExpression(result.particular.x, result.step.dx)}</p>
+          <p>y = {formatLinearExpression(result.particular.y, result.step.dy)}</p>
           </>
         )}
       </div>
