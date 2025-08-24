@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { solveLinearDiophantine, type DiophantineResult } from '../utils/solveLinearDiophantine';
-import { formatLinearExpression } from '../utils/format';
+import { formatLinearExpression, formatVectorSolution2D } from '../utils/format';
 //Collect a, b, and c from the user
 //TODO: Pass input into solver 
 
@@ -86,10 +86,19 @@ return (
         {/* General solution using parameter t */}
         {result.step && result.particular && (
           <>
-          <p>General solution:</p>
+          <p>General solution (component form):</p>
           <p>x = {formatLinearExpression(result.particular.x, result.step.dx)}</p>
           <p>y = {formatLinearExpression(result.particular.y, result.step.dy)}</p>
-          </>
+
+          <p>General solution (vector form):
+            {formatVectorSolution2D(
+              result.particular.x,
+              result.particular.y,
+              result.step.dx,
+              result.step.dy
+            )}
+          </p>
+         </>
         )}
       </div>
      )}
