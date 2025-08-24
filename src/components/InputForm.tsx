@@ -90,7 +90,8 @@ return (
           <p>x = {formatLinearExpression(result.particular.x, result.step.dx)}</p>
           <p>y = {formatLinearExpression(result.particular.y, result.step.dy)}</p>
 
-          <p>General solution (vector form):
+          <p>General solution (vector form):</p>
+          <p>
             {formatVectorSolution2D(
               result.particular.x,
               result.particular.y,
