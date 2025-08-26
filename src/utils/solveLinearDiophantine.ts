@@ -14,7 +14,7 @@ export type DiophantineResult = {
 
 
 //Returns the [gcd, x, y] such that ax + by = gcd
-function extendedGCD(a: number, b: number): [number, number, number]{
+export function extendedGCD(a: number, b: number): [number, number, number]{
     //Base case: gcd(a,0) = |a|, coefficents are (1, 0)
     if (b === 0){
         return [a, 1, 0];
