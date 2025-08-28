@@ -153,8 +153,22 @@ return (
       <div>
         <h3>3-variable solver</h3>
         <p>gcd: {result3.gcd}</p>
-        <p>result3.message</p>
-        {/*Solution rendering to be added*/}
+        <p>{result3.message}</p>
+        {result3.particular && (
+          <p>Particular solution: (x y, z) = ({result3.particular.x}, {result3.particular.y}, {result3.particular.z})</p>
+        )}
+        {result3.step && result3.particular && (
+          <>
+            <p>General solution (component form):</p>
+            <p>x = {formatLinearExpression(result3.particular.x, result3.step.dx)}</p>
+            <p>y = {formatLinearExpression(result3.particular.y, result3.step.dy)}</p>
+            <p>z = {formatLinearExpression(result3.particular.z, result3.step.dz)}</p>
+            <p>General solution (vector form):</p>
+            <p>
+              (x, y, z) = ({result3.particular.x}, {result3.particular.y}, {result3.particular.z}) + t({result3.step.dx}, {result3.step.dy}, {result3.step.dz}})
+            </p>
+          </>
+        )}
       </div>
      )}
    </div>
