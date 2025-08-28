@@ -104,6 +104,7 @@ return (
           type = "number"
           value = {d}
           onChange = {(e) => setD(e.target.value)}
+          placeholder= "Enter d"
           />
         </label>
         <br />
