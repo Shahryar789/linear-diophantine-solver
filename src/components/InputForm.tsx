@@ -132,8 +132,8 @@ return (
         {result2.step && result2.particular && (
           <>
           <p>General solution (component form):</p>
-          <p>x = {formatLinearExpression(result2.particular.x, result2.step.dx)}</p>
-          <p>y = {formatLinearExpression(result2.particular.y, result2.step.dy)}</p>
+          <p>x = {formatLinearExpression(result2.particular.x, [result2.step.dx])}</p>
+          <p>y = {formatLinearExpression(result2.particular.y, [result2.step.dy])}</p>
 
           <p>General solution (vector form):</p>
           <p>
