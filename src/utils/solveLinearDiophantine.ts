@@ -71,18 +71,18 @@ export function solveLinearDiophantine(a: number, b: number, c: number): Diophan
     
     //General solution steps
     const dx = b / g;
-    const dy = a / g;
+    const dy = -a / g;
 
     //Build general solution
-    const generalX = formatLinearExpression(particularX, dx, "t");
-    const generalY = formatLinearExpression(particularY, -dy, "t");
-    const vectorForm = formatVectorSolution2D(particularX, particularY, dx, -dy);
+    const generalX = formatLinearExpression(particularX, [dx], ["t"]);
+    const generalY = formatLinearExpression(particularY, [dy], ["t"]);
+    const vectorForm = formatVectorSolution2D(particularX, particularY, dx, dy);
 
     return{
         hasSolution: true,
         gcd: g,
         particular: {x: particularX, y: particularY},
-        step: {dx, dy: -dy},
+        step: {dx, dy},
         general: {x: generalX, y: generalY, vector: vectorForm},
         message: "General solution parameterized by integer t"
     }
