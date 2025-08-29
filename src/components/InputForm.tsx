@@ -165,7 +165,7 @@ return (
             <p>z = {formatLinearExpression(result3.particular.z, result3.step.dz)}</p>
             <p>General solution (vector form):</p>
             <p>
-              (x, y, z) = ({result3.particular.x}, {result3.particular.y}, {result3.particular.z}) + t({result3.step.dx[0]}, {result3.step.dy[0]}, {result3.step.dz[0]}) + st({result3.step.dx[1]}, {result3.step.dy[1]}, {result3.step.dz[1]})
+              (x, y, z) = ({result3.particular.x}, {result3.particular.y}, {result3.particular.z}) + t({result3.step.dx[0]}, {result3.step.dy[0]}, {result3.step.dz[0]}) + s({result3.step.dx[1]}, {result3.step.dy[1]}, {result3.step.dz[1]})
             </p>
           </>
         )}
