@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { solveLinearDiophantine, type DiophantineResult } from '../utils/solveLinearDiophantine';
 import { solveLinearDiophantine3, type Diophantine3Result } from '../utils/solveLinearDiophantine3';
-import { formatLinearExpression, formatVectorSolution2D } from '../utils/format';
+import { formatLinearExpression, formatVectorSolution2D, formatVectorSolution3D } from '../utils/format';
 
 function InputForm(){
   //Mode: 2 or 3 variable
@@ -160,12 +160,19 @@ return (
         {result3.step && result3.particular && (
           <>
             <p>General solution (component form):</p>
-            <p>x = {formatLinearExpression(result3.particular.x, result3.step.dx)}</p>
-            <p>y = {formatLinearExpression(result3.particular.y, result3.step.dy)}</p>
-            <p>z = {formatLinearExpression(result3.particular.z, result3.step.dz)}</p>
+            <p>x = {formatLinearExpression(result3.particular.x, result3.step.dx, ["t", "s"])}</p>
+            <p>y = {formatLinearExpression(result3.particular.y, result3.step.dy, ["t", "s"])}</p>
+            <p>z = {formatLinearExpression(result3.particular.z, result3.step.dz, ["t", "s"])}</p>
             <p>General solution (vector form):</p>
             <p>
-              (x, y, z) = ({result3.particular.x}, {result3.particular.y}, {result3.particular.z}) + t({result3.step.dx[0]}, {result3.step.dy[0]}, {result3.step.dz[0]}) + s({result3.step.dx[1]}, {result3.step.dy[1]}, {result3.step.dz[1]})
+              {formatVectorSolution3D(
+                result3.particular.x,
+                result3.particular.y,
+                result3.particular.z,
+                result3.step.dx,
+                result3.step.dy,
+                result3.step.dz
+              )}
             </p>
           </>
         )}
