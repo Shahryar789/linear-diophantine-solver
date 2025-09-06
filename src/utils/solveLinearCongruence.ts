@@ -22,4 +22,46 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
             message: "Inputs must be integers"
         };
     }
+    //Check to see if modulus is positive
+    if (m <= 0){
+        return {
+            hasSolution: false,
+            gcd: 0,
+            modulus: 0,
+            message: "Modulus must be positive",
+        };
+    }
+    //Calculate gcd(a, m)
+    const [g, xCoefficient] = extendedGCD(a ,m);
+
+    //Check divisibility 
+    if (b % g !== 0) {
+        return {
+            hasSolution: false,
+            gcd: 0,
+            modulus: m,
+            message: `No solutions exists because gcd(${a}, ${m}) = ${g} does not divide ${b}`,
+        };
+    }
+    //Scale down equation
+    const  a1 = a / g;
+    const b1 = b / g;
+    const m1 = m / g;
+
+    //Find inverse of a1 mod m1
+    const [_, invA1] = extendedGCD(a1, m1);
+
+    //Build particular solution
+    let x0 = (b1 * invA1) % m1;
+    if (x0 < 0) x0 += m1; 
+
+    //Format solution for display
+    return {
+        hasSolution: true,
+        gcd: g,
+        modulus: m1,
+        solution: x0,
+        generalSolution: `x = ${x0} (mod ${m1})`,
+        message: 'Solutions exist'
+    }
 }
