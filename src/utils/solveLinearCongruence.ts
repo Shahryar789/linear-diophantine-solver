@@ -32,7 +32,7 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
         };
     }
     //Calculate gcd(a, m)
-    const [g, xCoefficient] = extendedGCD(a ,m);
+    const [g, xCoefficient, yCoefficient] = extendedGCD(a, m);
 
     //Check divisibility 
     if (b % g !== 0) {
@@ -40,7 +40,7 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
             hasSolution: false,
             gcd: 0,
             modulus: m,
-            message: `No solutions exists because gcd(${a}, ${m}) = ${g} does not divide ${b}`,
+            message: 'No solutions exists',
         };
     }
     //Scale down equation
