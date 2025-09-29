@@ -38,7 +38,7 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
     if (b % g !== 0) {
         return {
             hasSolution: false,
-            gcd: 0,
+            gcd: g,
             modulus: m,
             message: 'No solutions exists',
         };
@@ -49,7 +49,7 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
     const m1 = m / g;
 
     //Find inverse of a1 mod m1
-    const [_, invA1] = extendedGCD(a1, m1);
+    const [_, invA1, _y] = extendedGCD(a1, m1);
 
     //Build particular solution
     let x0 = (b1 * invA1) % m1;
