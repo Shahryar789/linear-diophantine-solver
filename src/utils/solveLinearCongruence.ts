@@ -11,6 +11,12 @@ export interface CongruenceResult {
     generalSolution?: string;
     message: string;
 }
+//Normalization helper
+function modNormalize (x: number, mod: number): number {
+    const r = x % mod;
+    return r < 0 ? r + mod : r;
+}
+
 //Main solver, finds particular and general solution
 export function solveLinearCongruence(a: number, b: number, m: number): CongruenceResult {
     //Check if all arguments are integers
@@ -22,6 +28,7 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
             message: "Inputs must be integers",
         };
     }
+
     //Check to see if modulus is positive
     if (m <= 0){
         return {
@@ -38,10 +45,11 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
             hasSolution: true,
             gcd: m,
             modulus: m,
-            message: "infinitely many solutions",
+            message: "Infinitely many solutions",
             generalSolution: "x ∈ Z",
         };
     }
+
     if (a === 0 && b !== 0) {
         return {
             hasSolution: false,
@@ -49,9 +57,11 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
             modulus: m,
             message: `No solutions`,
         };
-    }   
-    //Calculate gcd(a, m)
-    const [g, xCoefficient, yCoefficient] = extendedGCD(a, m);
+    }
+
+    let [g, _x, _y] = extendedGCD(a, m);
+
+    if (g < 0) g = -g;
 
     //Check divisibility 
     if (b % g !== 0) {
@@ -62,17 +72,23 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
             message: 'No solutions exists',
         };
     }
+
     //Scale down equation
     const a1 = a / g;
     const b1 = b / g;
     const m1 = m / g;
 
     //Find inverse of a1 mod m1
-    const [_, invA1, _y] = extendedGCD(a1, m1);
+    let [g1, invA1, __y] = extendedGCD(a1, m1);
+
+    //Normalize gcd to remain positive, adjust inv as needed
+    if (g1 < 0) {
+        g1 = -g1;
+        invA1 = -invA1;
+    }
 
     //Build particular solution
-    let x0 = (b1 * invA1) % m1;
-    if (x0 < 0) x0 += m1; 
+    const x0 = modNormalize(b1 * invA1, m1);
 
     //Format solution for display
     return {
