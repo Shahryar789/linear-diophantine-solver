@@ -19,7 +19,7 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
             hasSolution: false,
             gcd: 0,
             modulus: 0,
-            message: "Inputs must be integers"
+            message: "Inputs must be integers",
         };
     }
     //Check to see if modulus is positive
@@ -31,6 +31,25 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
             message: "Modulus must be positive",
         };
     }
+    
+    //Handle special cases
+    if(a === 0 && b == 0) {
+        return {
+            hasSolution: true,
+            gcd: m,
+            modulus: m,
+            message: "infinitely many solutions",
+            generalSolution: "x ∈ Z",
+        };
+    }
+    if (a === 0 && b !== 0) {
+        return {
+            hasSolution: false,
+            gcd: m,
+            modulus: m,
+            message: `No solutions`,
+        };
+    }   
     //Calculate gcd(a, m)
     const [g, xCoefficient, yCoefficient] = extendedGCD(a, m);
 
@@ -44,7 +63,7 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
         };
     }
     //Scale down equation
-    const  a1 = a / g;
+    const a1 = a / g;
     const b1 = b / g;
     const m1 = m / g;
 
@@ -62,6 +81,6 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
         modulus: m1,
         solution: x0,
         generalSolution: `x = ${x0} (mod ${m1})`,
-        message: 'Solutions exist'
-    }
+        message: "Solutions exist",
+    };
 }
