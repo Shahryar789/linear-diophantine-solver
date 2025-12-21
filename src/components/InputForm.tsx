@@ -265,8 +265,14 @@ return (
       <p>{resultCongruence.message}</p>
       {resultCongruence.hasSolution && (
         <>
-          <p>One solution: x = {resultCongruence.solution}</p>
-          <p>General solution: {resultCongruence.generalSolution}</p>
+          {typeof resultCongruence.solution === "number" ? (
+            <p>One solution: x = {resultCongruence.solution}</p>
+          ) : ( 
+            <p>One solution: x = any integer</p>
+          )}
+          {resultCongruence.generalSolution && (
+            <p>General solution: {resultCongruence.generalSolution}</p>
+          )}
         </>
       )}
     </div>
