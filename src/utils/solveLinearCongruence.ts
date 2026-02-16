@@ -78,8 +78,9 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
     const b1 = b / g;
     const m1 = m / g;
 
+    const a1mod = modNormalize(a1, m1);
     //Find inverse of a1 mod m1
-    let [g1, invA1, __y] = extendedGCD(a1, m1);
+    let [g1, invA1, __y] = extendedGCD(a1mod, m1);
 
     //Normalize gcd to remain positive, adjust inv as needed
     if (g1 < 0) {
