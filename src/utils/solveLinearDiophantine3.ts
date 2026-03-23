@@ -30,9 +30,22 @@ export function solveLinearDiophantine3(
 ): Diophantine3Result {
     const g = gcd3(a, b, c);
 
+    //Special case: 0x + 0y + 0z = 0
+    if (a === 0 && b === 0 && c === 0) {
+        if (d === 0) {
+            return {
+                gcd: 0,
+                message: "Infintely many solutons: x, y, z can be any integers",
+                particular: {x: 0, y: 0, z: 0},
+                step: {
+                    dx: [1, 0],
+                    dy: [0, 0],
+                    dz: [0, 0],
+                },
+            }   
+        }
     //Check solvability 
-    if (d % g !== 0) {
-        return{
+        return {
             gcd: g,
             message: `No integer solutions exist`,
             particular: null,
