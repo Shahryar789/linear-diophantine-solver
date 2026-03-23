@@ -36,13 +36,9 @@ export function solveLinearDiophantine3(
             return {
                 gcd: 0,
                 message: "Infintely many solutons: x, y, z can be any integers",
-                particular: {x: 0, y: 0, z: 0},
-                step: {
-                    dx: [1, 0],
-                    dy: [0, 0],
-                    dz: [0, 0],
-                },
-            }   
+                particular: null,
+                step: null,  
+            };  
         }
     //Check solvability 
         return {
