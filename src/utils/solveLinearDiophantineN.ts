@@ -18,3 +18,34 @@ function identityMatrix(n: number): number[][] {
         Array.from({length: n}, (_, j) => (i === j ? 1 : 0))
     );
 }   
+
+//Main solver, finds particular and general solution
+export function solveLinearDiophantineN(
+    coefficients: number[],
+    rhs: number
+): DiophantineNResult {
+    const n = coefficients.length;
+
+    if (n === 0) {
+        return {
+            hasSolution: false,
+            gcd: 0,
+            message: "At least one coefficient is required.",
+            variableCount: 0,
+            particular: null,
+            basis: null,
+        };
+    }
+    if (!coefficients.every(Number.isInteger) || !Number.isInteger(rhs)) {
+        return {
+            hasSolution: false,
+            gcd: 0,
+            message: "All coefficients and the right-hand side must be integers.",
+            variableCount: n,
+            particular: null,
+            basis: null,
+        };
+    }
+    //Special case: All coefficients are zero
+    //TODO: Implement
+}
