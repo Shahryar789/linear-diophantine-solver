@@ -69,4 +69,9 @@ export function solveLinearDiophantineN(
             basis: null,
         };
     }
+    //Construct a unimodular matrix B such that:
+    // [a1 a2 ... an] * B = [g 0 0 ... 0]
+    // => That solving ax = rhs:
+    // [g 0 0 ... 0] y = rhs
+    // => x = By
 }
