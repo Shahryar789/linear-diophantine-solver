@@ -47,5 +47,26 @@ export function solveLinearDiophantineN(
         };
     }
     //Special case: All coefficients are zero
-    //TODO: Implement
+    const allZero = coefficients.every((a) => a === 0);
+
+    if (allZero) {
+        if (rhs === 0) {
+            return {
+                hasSolution: true,
+                gcd: 0,
+                message: "Infinitely many solutions: All variables can be any integer.",
+                variableCount: n,
+                particular: Array(n).fill(0);
+                basis: identityMatrix(n),
+            };
+        }
+        return {
+            hasSolution: false,
+            gcd: 0,
+            message: "No integer solutions exist.",
+            variableCount: n,
+            particular: null,
+            basis: null,
+        };
+    }
 }
