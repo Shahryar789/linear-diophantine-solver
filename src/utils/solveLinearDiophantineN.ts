@@ -74,4 +74,26 @@ export function solveLinearDiophantineN(
     // => That solving ax = rhs:
     // [g 0 0 ... 0] y = rhs
     // => x = By
+
+    const transformed = [...coefficients];
+    const B = identityMatrix(n);
+
+    for (let i = 1; i < n; i++) {
+        const c1 = transformed[0];
+        const ci = transformed[i];
+
+        if (ci === 0) continue;
+
+        let [g, p, q] = extendedGCD(c1, ci);
+        
+        //Normalize GCD to be positive
+        if (g < 0) {
+            g = -g;
+            p = -p;
+            q = -q;
+        }
+        
+
+    }
+
 }
