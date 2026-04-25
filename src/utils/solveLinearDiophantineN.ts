@@ -92,8 +92,29 @@ export function solveLinearDiophantineN(
             p = -p;
             q = -q;
         }
-        
+        //Perform column transformations on columns 1 and i such that:
+        // T = [p ... ci/g]
+        //   = [q ... -c1/g]
+        // => [c1 ci] T = [g 0]
 
+        const t11 = p;
+        const t21 = q;
+        const t12 = ci / g;
+        const t22 = -c1 / g;
+
+        //Update transformed row
+        transformed[0] = c1 * t11 + ci * t21;
+        transformed[1] = c1 + t12 + ci * t22;
+
+        //Update B by applying the same column transformation
+        for (let row = 0; row < n; row++) {
+            const oldCol0 = B[row][0];
+            const oldColI = B[row][i];
+
+            B[row][0] = oldCol0 * t11 + oldColI * t21;
+            B[row][i] = oldCol0 * t12 + oldColI * t22;
+        }
     }
+    
 
 }
