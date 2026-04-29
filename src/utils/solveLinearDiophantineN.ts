@@ -115,6 +115,37 @@ export function solveLinearDiophantineN(
             B[row][i] = oldCol0 * t12 + oldColI * t22;
         }
     }
-    
+    const g = Math.abs(transformed[0]);
 
+    if (rhs % g !== 0) {
+        return {
+            hasSolution: false,
+            gcd: g,
+            message: "No integer solutions exist.",
+            variableCount: n,
+            particular: null,
+            basis: null,
+        };
+    }
+    
+    const scale = rhs / g;
+    
+    // y = [rhs/g, 0, ..., 0]
+    // x = B*y = (rhs/g) * first column of B
+    const particular = B.map((row) => row[0] * scale);
+
+    //Remaining columns of B form a basis for the homogenous solution space
+    const basis: number[][] = [];
+    for (let j = 1; j < n; j++) {
+        basis.push(B.map((row) => row[j]));
+    }
+
+    return {
+        hasSolution: true,
+        gcd: g,
+        message: `General solution has ${basis.length} free parameters${basis.length === 1 ? "" : "S"}.`,
+        variableCount: n,
+        particular,
+        basis,
+    };
 }
