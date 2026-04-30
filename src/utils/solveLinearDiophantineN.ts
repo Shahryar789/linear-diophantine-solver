@@ -14,7 +14,7 @@ export interface DiophantineNResult {
 
 //Builds an nxn identity matrix
 function identityMatrix(n: number): number[][] {
-    return Array.from({length: n}), (_, i) =>
+    return Array.from({length: n}, (_, i) =>
         Array.from({length: n}, (_, j) => (i === j ? 1 : 0))
     );
 }   
@@ -40,7 +40,7 @@ export function solveLinearDiophantineN(
         return {
             hasSolution: false,
             gcd: 0,
-            message: "All coefficients and the right-hand side must be integers.",
+            message: "All coefficients and the right hand side must be integers.",
             variableCount: n,
             particular: null,
             basis: null,
@@ -56,7 +56,7 @@ export function solveLinearDiophantineN(
                 gcd: 0,
                 message: "Infinitely many solutions: All variables can be any integer.",
                 variableCount: n,
-                particular: Array(n).fill(0);
+                particular: Array(n).fill(0),
                 basis: identityMatrix(n),
             };
         }
@@ -104,7 +104,7 @@ export function solveLinearDiophantineN(
 
         //Update transformed row
         transformed[0] = c1 * t11 + ci * t21;
-        transformed[1] = c1 + t12 + ci * t22;
+        transformed[i] = c1 * t12 + ci * t22;
 
         //Update B by applying the same column transformation
         for (let row = 0; row < n; row++) {
@@ -143,7 +143,7 @@ export function solveLinearDiophantineN(
     return {
         hasSolution: true,
         gcd: g,
-        message: `General solution has ${basis.length} free parameters${basis.length === 1 ? "" : "S"}.`,
+        message: `General solution has ${basis.length} free parameter${basis.length === 1 ? "" : "s"}.`,
         variableCount: n,
         particular,
         basis,
