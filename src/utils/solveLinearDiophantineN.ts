@@ -1,7 +1,7 @@
 //Solves a1x1 + a2x2 + ... + anxn = d
 //Incorporates the Extended Euclidean Algorithm
 
-import { extendedGCD } from "./solveLinearDiophantine";
+import { extendedGCD } from "./mathUtils";
 
 export interface DiophantineNResult {
     hasSolution: boolean,
