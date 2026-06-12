@@ -97,7 +97,7 @@ export function solveLinearCongruence(a: number, b: number, m: number): Congruen
         gcd: g,
         modulus: m1,
         solution: x0,
-        generalSolution: `x = ${x0} (mod ${m1})`,
+        generalSolution: `x ≡ ${x0} (mod ${m1})`,
         message: "Solutions exist",
     };
 }
