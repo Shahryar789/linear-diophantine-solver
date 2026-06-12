@@ -1,7 +1,7 @@
 //Solves ax = b (mod m)
 //Incorporates the Extended Euclidean Algorithm
 
-import { extendedGCD } from "./solveLinearDiophantine";
+import { extendedGCD } from "./mathUtils";
 
 export interface CongruenceResult {
     hasSolution: boolean;
