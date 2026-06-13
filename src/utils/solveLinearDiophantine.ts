@@ -1,6 +1,7 @@
 //Solves ax + by = c
-//Incorporates the Extended Euclidean Algorithm
+//Wrapper around n-variable solver, with formatting for 2D case
 
+import { solveLinearDiophantineN } from "./solveLinearDiophantineN";
 import { formatLinearExpression, formatVectorSolution2D } from "./format";
 
 export type DiophantineResult = {
@@ -11,23 +12,6 @@ export type DiophantineResult = {
     general?: {x: string; y: string; vector: string};
     message: string;
 };
-
-
-//Returns the [gcd, x, y] such that ax + by = gcd
-export function extendedGCD(a: number, b: number): [number, number, number]{
-    //Base case: gcd(a,0) = |a|, coefficents are (1, 0)
-    if (b === 0){
-        return [a, 1, 0];
-    }
-    //Recursion
-    const [gcd, x1, y1] = extendedGCD(b, a % b);
-
-    //Update x and y as per the result of the recursion
-    const x = y1;
-    const y = x1 - Math.floor(a / b) * y1;
-
-    return [gcd, x, y];
-}
 
 //Main solver, finds particular and general solution
 export function solveLinearDiophantine(a: number, b: number, c: number): DiophantineResult {
@@ -48,42 +32,42 @@ export function solveLinearDiophantine(a: number, b: number, c: number): Diophan
         };
     }
 
-    //Find gcd and set of coefficients for a and b
-    const [g, x0, y0] = extendedGCD(Math.abs(a), Math.abs(b));  
+    //Send core math to the n-variable solver, treating this as a 2-variable case
+    const result = solveLinearDiophantineN([a, b], c);
 
     //Check if c is divisible by gcd, if not then no solutions exist
-    if (c % g !== 0){
+    if (!result.hasSolution) {
         return{
             hasSolution: false,
-            gcd: g,
-            message: "No integer solutions exist."
+            gcd: result.gcd,
+            message: result.message,
         };
     }
 
-    //Scale particular solution in respect to c / g
-    const scale = c / g;
-    let particularX = x0 * scale;
-    let particularY = y0 * scale;
+    //Check if result is valid
+    if (!result.particular || !result.basis || result.basis.length < 1) {
+        return {
+            hasSolution: false,
+            gcd: result.gcd,
+            message: "Unexpected solver state.",
+        };
+    }
 
-    //Adjust if a or b were negative
-    if (a < 0) particularX = -particularX;
-    if (b < 0) particularY = -particularY;
-    
-    //General solution steps
-    const dx = b / g;
-    const dy = -a / g;
+    //Extract particular solution and basis vector for general solution
+    const [x0, y0] = result.particular;
+    const [dx, dy] = result.basis[0];
 
     //Build general solution
-    const generalX = formatLinearExpression(particularX, [dx], ["t"]);
-    const generalY = formatLinearExpression(particularY, [dy], ["t"]);
-    const vectorForm = formatVectorSolution2D(particularX, particularY, dx, dy);
+    const generalX = formatLinearExpression(x0, [dx], ["t"]);
+    const generalY = formatLinearExpression(y0, [dy], ["t"]);
+    const vectorForm = formatVectorSolution2D(x0, y0, dx, dy);
 
-    return{
+    return {
         hasSolution: true,
-        gcd: g,
-        particular: {x: particularX, y: particularY},
+        gcd: result.gcd,
+        particular: {x: x0, y: y0},
         step: {dx, dy},
         general: {x: generalX, y: generalY, vector: vectorForm},
-        message: "General solution parameterized by integer t"
-    }
+        message: "General solution parameterized by integer t",
+    };
 }
