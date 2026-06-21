@@ -23,7 +23,7 @@ export function solveLinearDiophantine3(
         if (d === 0) {
             return {
                 gcd: 0,
-                message: "Infintely many solutons: x, y, z can be any integers",
+                message: "Infinitely many solutions: x, y, z can be any integers",
                 particular: null,
                 step: null,  
             };  
