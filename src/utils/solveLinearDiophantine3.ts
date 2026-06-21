@@ -1,7 +1,7 @@
 //Solves ax + by + cz = d
-//Incorporates the Extended Euclidean Algorithm
+//Wrapper around the n-variable solver, with formatting for 3D case
 
-import{extendedGCD} from './solveLinearDiophantine';
+import { solveLinearDiophantineN } from "./solveLinearDiophantineN"; 
 
 //Structures result 
 export interface Diophantine3Result {
@@ -11,16 +11,6 @@ export interface Diophantine3Result {
     step: {dx: [number, number]; dy: [number, number]; dz: [number, number] } | null;
 }
 
-//Compute gcd of two numbers recursively 
-function gcd2(x: number, y: number): number {
-    return y === 0 ? Math.abs(x) : gcd2(y, x % y);
-}
-
-//Returns gcd for 3 numbers by reducing to 2
-function gcd3(a: number, b: number, c: number): number {
-    return gcd2(gcd2(a, b), c);
-}
-
 //Main solver, finds particular and general solution
 export function solveLinearDiophantine3(
     a: number,
@@ -28,9 +18,7 @@ export function solveLinearDiophantine3(
     c: number,
     d: number
 ): Diophantine3Result {
-    const g = gcd3(a, b, c);
-
-    //Special case: 0x + 0y + 0z = 0
+    //Special case: 0x + 0y + 0z = d
     if (a === 0 && b === 0 && c === 0) {
         if (d === 0) {
             return {
@@ -42,39 +30,50 @@ export function solveLinearDiophantine3(
         }
     //Check solvability 
         return {
-            gcd: g,
-            message: `No integer solutions exist`,
+            gcd: 0,
+            message: "No integer solutions exist",
             particular: null,
             step: null,
         };
     }
     
-    //Scale equations by gcd
-    const a1 = a / g;
-    const b1 = b / g;
-    const c1 = c / g;
-    const d1 = d / g;
+    //Send core math to the n-variable solver, treating this as a 3-variable case   
+    const result = solveLinearDiophantineN([a, b, c], d);
 
-    //Solve equations where solutions do exist
-    const [g2, xPart, yPart] = extendedGCD(a1, b1);
+    //No integer solution
+    if (!result.hasSolution) {  
+        return {
+            gcd: result.gcd,    
+            message: result.message,
+            particular: null,
+            step: null,
+        };
+    }
 
-    //Scale x0 and y0
-    const x0 = xPart * (d1 / g2);
-    const y0 = yPart * (d1 / g2);
+    //Check if result is valid
+    if (!result.particular || !result.basis || result.basis.length < 2) {   
+        return {
+            gcd: result.gcd,
+            message: "Unexpected solver state.",
+            particular: null,
+            step: null,
+        };
+    }
 
-    //Set z0 as zero initially for the particular solution
-    const z0 = 0;
+    //Extract particular solution
+    const [x0, y0, z0] = result.particular;
 
-    //Build general solution
-    const dx: [number, number] = [b1 / g2, -(c1 / g2)]
-    const dy: [number, number] = [-a1 / g2, -(c1 / g2)]
-    const dz: [number, number] = [0, 1]
+    //Extract two basis vectors for general solution
+    const [v1, v2] = result.basis;
 
-    //Format solution for display
     return {
-        gcd: g,
-        message: `General solution parameterized by integers t and s`,
+        gcd: result.gcd,
+        message: "General solution parameterized by integers t and s",
         particular: {x: x0, y: y0, z: z0},
-        step: {dx, dy, dz},
+        step: {
+            dx: [v1[0], v2[0]],
+            dy: [v1[1], v2[1]],
+            dz: [v1[2], v2[2]],
+        },
     };
 }
