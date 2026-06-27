@@ -37,7 +37,7 @@ function ModeSelector({ mode, onModeChange }: ModeSelectorProps) {
                     checked={mode === 'congruence'}
                     onChange={() => onModeChange('congruence')}
                 />{' '}
-                Congruence (ax ≡ b (mod m))
+                Linear Congruence (ax ≡ b mod m)
             </label>
         </div>
     );
