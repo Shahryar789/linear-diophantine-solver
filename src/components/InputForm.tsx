@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import ModeSelector, {type SolverMode} from './ModeSelector';
 import { solveLinearDiophantine, type DiophantineResult } from '../utils/solveLinearDiophantine';
 import { solveLinearDiophantine3, type Diophantine3Result } from '../utils/solveLinearDiophantine3';
-import { formatLinearExpression, formatVectorSolution2D, formatVectorSolution3D } from '../utils/format';
+import { formatLinearExpression, formatVectorSolution2D, formatVectorSolution3D} from '../utils/format';
 import { solveLinearCongruence, type CongruenceResult } from '../utils/solveLinearCongruence';
 
 function InputForm(){
