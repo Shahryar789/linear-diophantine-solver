@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import ModeSelector, {type SolverMode} from './ModeSelector';
+import SolverInputs from './SolverInputs';
 import { solveLinearDiophantine, type DiophantineResult } from '../utils/solveLinearDiophantine';
 import { solveLinearDiophantine3, type Diophantine3Result } from '../utils/solveLinearDiophantine3';
-import { formatLinearExpression, formatVectorSolution2D, formatVectorSolution3D} from '../utils/format';
 import { solveLinearCongruence, type CongruenceResult } from '../utils/solveLinearCongruence';
+import { formatLinearExpression, formatVectorSolution2D, formatVectorSolution3D} from '../utils/format';
+
+type InputName = 'a' | 'b' | 'c' | 'd' | 'm';
 
 function InputForm(){
-  //Current solver mode selectged by user
+  //Current solver mode selected by user
   const [mode, setMode] = useState<SolverMode>('2');
 
   //Coefficients 
@@ -15,6 +18,19 @@ function InputForm(){
   const [c, setC] = useState('');
   const [d, setD] = useState('');
   const [m, setM] = useState('');
+
+  const inputSetters: Record<InputName, (value: string) => void> = {
+    a: setA,
+    b: setB,
+    c: setC,
+    d: setD,
+    m: setM,
+  };
+
+  //Routes input update to corresponding state setter
+  const handleInputChange = (name: InputName, value: string) => {
+    inputSetters[name](value);
+  };
 
   //Store solver result
   const [result2, setResult2] = useState<DiophantineResult | null>(null);
@@ -77,132 +93,14 @@ function InputForm(){
 
     <ModeSelector mode = {mode} onModeChange = {setMode} />
 
-    {/* 2-variable input fields: ax + by = c */}
-    {mode === '2' && ( 
-      <>
-        <label>
-          a: {' '}
-          <input
-            type = "number"
-            value = {a}
-            onChange = {(e) => setA(e.target.value)}
-            placeholder = "Enter a"
-          />
-        </label>
-        <br />
-
-        <label>
-          b: {' '}
-          <input
-            type = "number"
-            value = {b}
-            onChange = {(e) => setB(e.target.value)}
-            placeholder = "Enter b"
-          />
-        </label>
-        <br />
-
-        <label>
-          c: {' '}
-          <input
-          type = "number"
-          value = {c}
-          onChange = {(e) => setC(e.target.value)}
-          placeholder = "Enter c"
-          />
-        </label>
-        <br />
-      </>
-    )}
-
-    {/* 3-variable input fields: ax + by + cz = d */}
-    {mode === '3' && (
-      <>
-        <label>
-          a: {' '}
-          <input
-            type = "number"
-            value = {a}
-            onChange = {(e) => setA(e.target.value)}
-            placeholder = "Enter a"
-          />
-        </label>
-        <br />
-
-        <label>
-          b: {' '}
-          <input
-            type = "number"
-            value = {b}
-            onChange = {(e) => setB(e.target.value)}
-            placeholder = "Enter b"
-          />
-        </label>
-        <br />
-
-        <label>
-          c: {' '}
-          <input
-            type = "number"
-            value = {c}
-            onChange = {(e) => setC(e.target.value)}
-            placeholder = "Enter c"
-          />
-        </label>
-        <br />
-
-        <label>
-          d: {' '}
-          <input
-            type = "number"
-            value = {d}
-            onChange = {(e) => setD(e.target.value)}
-            placeholder = "Enter d"
-          />
-        </label>
-        <br />
-      </>
-    )}
-
-    {/* Linear congruence input fields: ax = b (mod m) */}
-    {mode === 'congruence' && (
-      <>
-        <label>
-          a: {' '}
-          <input
-            type = "number"
-            value = {a}
-            onChange = {(e) => setA(e.target.value)}
-            placeholder = "Enter a"
-          />
-        </label>
-        <br />
-
-        <label>
-          b: {' '}
-          <input
-            type = "number"
-            value = {b}
-            onChange = {(e) => setB(e.target.value)}
-            placeholder = "Enter b"
-          />
-        </label>
-        <br />
-
-        <label>
-          m: {' '}
-          <input
-            type = "number"
-            value = {m}
-            onChange = {(e) => setM(e.target.value)}
-            placeholder = "Enter m"
-          />
-        </label>
-        <br />
-      </>
-    )}
+    <SolverInputs
+      mode={mode}
+      values={{ a, b, c, d, m }}
+      onChange={handleInputChange}
+    />
 
     <button onClick = {handleSolve}>Solve</button>
+
 
     {/*2-variable result*/}
     {result2 && (
@@ -239,7 +137,7 @@ function InputForm(){
   {/* 3-variable result */}
   {result3 && (
     <div>
-      <h3>3-variable solver</h3>
+      <h3>3-variable Result</h3>
       <p>gcd: {result3.gcd}</p>
       <p>{result3.message}</p>
 
