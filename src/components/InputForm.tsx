@@ -4,7 +4,8 @@ import SolverInputs from './SolverInputs';
 import { solveLinearDiophantine, type DiophantineResult } from '../utils/solveLinearDiophantine';
 import { solveLinearDiophantine3, type Diophantine3Result } from '../utils/solveLinearDiophantine3';
 import { solveLinearCongruence, type CongruenceResult } from '../utils/solveLinearCongruence';
-import { formatLinearExpression, formatVectorSolution2D, formatVectorSolution3D} from '../utils/format';
+import { formatLinearExpression, formatVectorSolution3D} from '../utils/format';
+import TwoVariableResult from './TwoVariableResult';
 
 type InputName = 'a' | 'b' | 'c' | 'd' | 'm';
 
@@ -101,39 +102,8 @@ function InputForm(){
 
     <button onClick = {handleSolve}>Solve</button>
 
-
-    {/*2-variable result*/}
-    {result2 && (
-      <div>
-        <h3>2-variable Result</h3>
-        <p>gcd: {result2.gcd}</p>
-        <p>{result2.message}</p>
-
-        {result2.particular && (
-          <p> 
-            Particular solution: (x, y) = ({result2.particular.x}, {result2.particular.y})
-          </p>
-        )}
-
-        {result2.step && result2.particular && (
-          <>
-            <p>General solution (component form):</p>
-            <p>x = {formatLinearExpression(result2.particular.x, [result2.step.dx])}</p>
-            <p>y = {formatLinearExpression(result2.particular.y, [result2.step.dy])}</p>
-
-            <p>General solution (vector form):</p>
-            <p>
-            {formatVectorSolution2D( 
-              result2.particular.x, 
-              result2.particular.y, 
-              result2.step.dx, 
-              result2.step.dy)}
-            </p>
-          </>
-        )}
-    </div>
-  )}
-
+    {result2 && <TwoVariableResult result={result2} />}
+    
   {/* 3-variable result */}
   {result3 && (
     <div>
