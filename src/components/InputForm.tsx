@@ -6,6 +6,7 @@ import { solveLinearDiophantine3, type Diophantine3Result } from '../utils/solve
 import { solveLinearCongruence, type CongruenceResult } from '../utils/solveLinearCongruence';
 import TwoVariableResult from './TwoVariableResult';
 import ThreeVariableResult from './ThreeVariableResult';
+import LinearCongruenceResult from './LinearCongruenceResult';
 
 type InputName = 'a' | 'b' | 'c' | 'd' | 'm';
 
@@ -13,7 +14,7 @@ function InputForm(){
   //Current solver mode selected by user
   const [mode, setMode] = useState<SolverMode>('2');
 
-  //Coefficients 
+  //Shared input states for all solver modes 
   const [a, setA] = useState('');
   const [b, setB] = useState('');
   const [c, setC] = useState('');
@@ -33,7 +34,7 @@ function InputForm(){
     inputSetters[name](value);
   };
 
-  //Store solver result
+  //Store solver results
   const [result2, setResult2] = useState<DiophantineResult | null>(null);
   const [result3, setResult3] = useState<Diophantine3Result | null>(null);
   const [resultCongruence, setResultCongruence] = useState<CongruenceResult | null>(null);
@@ -106,27 +107,8 @@ function InputForm(){
     
     {result3 && <ThreeVariableResult result={result3} />}
 
-  {/* Congruence result */}
-  {resultCongruence && (
-    <div>
-      <h3>Linear Congruence Result</h3>
-      <p>gcd: {resultCongruence.gcd}</p>
-      <p>{resultCongruence.message}</p>
-
-      {resultCongruence.hasSolution && (
-        <>
-          {typeof resultCongruence.solution === "number" ? (
-            <p>One solution: x = {resultCongruence.solution}</p>
-          ) : ( 
-            <p>One solution: x = any integer</p>
-          )}
-
-          {resultCongruence.generalSolution && (
-            <p>General solution: {resultCongruence.generalSolution}</p>
-          )}
-        </>
-      )}
-    </div>
+    {resultCongruence && (
+      <LinearCongruenceResult result={resultCongruence} />
    )}
   </div>
  );
