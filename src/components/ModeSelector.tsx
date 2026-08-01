@@ -1,4 +1,4 @@
-export type SolverMode = '2' | '3' | 'congruence';
+export type SolverMode = '2' | '3' | 'n' | 'congruence';
 
 type ModeSelectorProps = {  
     mode: SolverMode;
@@ -6,7 +6,7 @@ type ModeSelectorProps = {
 };
 
 //Renders the solver mode selector
-//Keeps mode-selection UI seperate from solver and result rendering logic
+//Keeps mode-selection UI separate from solver and result rendering logic
 function ModeSelector({ mode, onModeChange }: ModeSelectorProps) {
     return (
         <div>
@@ -28,6 +28,17 @@ function ModeSelector({ mode, onModeChange }: ModeSelectorProps) {
                     onChange={() => onModeChange('3')}
                 />{' '}
                 3-variable (ax + by + cz = d)   
+            </label>
+
+            <label style={{ marginLeft: '1em' }}>
+                <input
+                    type="radio"
+                    value="n"
+                    checked={mode === 'n'}
+                    onChange={() => onModeChange('n')}
+                />{' '}
+                n-variable (a₁x₁ + ... + aₙxₙ = d)
+
             </label>
 
             <label style={{ marginLeft: '1em' }}>
