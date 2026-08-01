@@ -4,8 +4,8 @@ import SolverInputs from './SolverInputs';
 import { solveLinearDiophantine, type DiophantineResult } from '../utils/solveLinearDiophantine';
 import { solveLinearDiophantine3, type Diophantine3Result } from '../utils/solveLinearDiophantine3';
 import { solveLinearCongruence, type CongruenceResult } from '../utils/solveLinearCongruence';
-import { formatLinearExpression, formatVectorSolution3D} from '../utils/format';
 import TwoVariableResult from './TwoVariableResult';
+import ThreeVariableResult from './ThreeVariableResult';
 
 type InputName = 'a' | 'b' | 'c' | 'd' | 'm';
 
@@ -104,41 +104,7 @@ function InputForm(){
 
     {result2 && <TwoVariableResult result={result2} />}
     
-  {/* 3-variable result */}
-  {result3 && (
-    <div>
-      <h3>3-variable Result</h3>
-      <p>gcd: {result3.gcd}</p>
-      <p>{result3.message}</p>
-
-      {result3.particular && (
-        <p>
-          Particular solution: (x, y, z) = (
-            {result3.particular.x}, {result3.particular.y}, {result3.particular.z})
-        </p>
-      )}
-      
-      {result3.step && result3.particular && (
-        <>
-          <p>General solution (component form):</p>
-          <p>x = {formatLinearExpression(result3.particular.x, result3.step.dx, ["t", "s"])}</p>
-          <p>y = {formatLinearExpression(result3.particular.y, result3.step.dy, ["t", "s"])}</p>
-          <p>z = {formatLinearExpression(result3.particular.z, result3.step.dz, ["t", "s"])}</p>
-          
-          <p>General solution (vector form):</p>
-          <p>
-            {formatVectorSolution3D(
-              result3.particular.x, 
-              result3.particular.y, 
-              result3.particular.z, 
-              result3.step.dx, 
-              result3.step.dy, 
-              result3.step.dz)}
-          </p>
-        </>
-      )}
-    </div>
-  )}
+    {result3 && <ThreeVariableResult result={result3} />}
 
   {/* Congruence result */}
   {resultCongruence && (
