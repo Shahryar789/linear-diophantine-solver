@@ -7,7 +7,7 @@ type TwoVariableResultProps = {
     result: DiophantineResult;
 };
 
-//Renders the 2-variable solver result seperately from state and solve logic
+//Renders the 2-variable solver result separately from state and solve logic
 function TwoVariableResult({ result }: TwoVariableResultProps) {
     return (
         <div>
