@@ -39,7 +39,7 @@ function InputForm(){
   const [result3, setResult3] = useState<Diophantine3Result | null>(null);
   const [resultCongruence, setResultCongruence] = useState<CongruenceResult | null>(null);
 
-  //Clear results before setting current mode's result
+  //Clears results before setting current mode's result
   const clearResults = () => {
     setResult2(null);
     setResult3(null);
@@ -62,6 +62,7 @@ function InputForm(){
       setResult2(solveLinearDiophantine(numA, numB, numC));
       return;
     }
+    
     if (mode === '3') {
       if (a.trim() === '' || b.trim() === '' || c.trim() === '' || d.trim() === '') {
         return;
@@ -73,6 +74,10 @@ function InputForm(){
       const numD = Number(d);
 
       setResult3(solveLinearDiophantine3(numA, numB, numC, numD));
+      return;
+    }
+    if (mode === 'n') {
+      // Placeholder for n-variable solver
       return;
     }
     if (mode === 'congruence') {
