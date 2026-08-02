@@ -8,15 +8,24 @@ type SolverInputsProps = {
     onChange: (name: InputName, value: string) => void;
 };
 
-//Shared coefficients for the input fields
+//Maps each solver mode to the required input fields
 const fieldsByMode: Record<SolverMode, InputName[]> = {
     '2': ['a', 'b', 'c'],
     '3': ['a', 'b', 'c', 'd'],
+    n: [],
     congruence: ['a', 'b', 'm']
 };
 
 //Renders input fields required by selected solver
 function SolverInputs({ mode, values, onChange }: SolverInputsProps) {
+  if (mode === 'n') {
+    return (
+      <p>
+        n-variable input fields to be added later.
+      </p>
+    );
+  }
+
     return (
         <>
           {fieldsByMode[mode].map((field) => (
