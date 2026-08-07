@@ -10,16 +10,24 @@ import LinearCongruenceResult from './LinearCongruenceResult';
 
 type InputName = 'a' | 'b' | 'c' | 'd' | 'm';
 
+const MIN_VARIABLE_COUNT = 2;
+const MAX_VARIABLE_COUNT = 10;
+
 function InputForm(){
   //Current solver mode selected by user
   const [mode, setMode] = useState<SolverMode>('2');
-
+  
   //Shared input states for all solver modes 
   const [a, setA] = useState('');
   const [b, setB] = useState('');
   const [c, setC] = useState('');
   const [d, setD] = useState('');
   const [m, setM] = useState('');
+
+  //Dynamic input states for n-variable solver mode
+  const [nVariableCount, setNVariableCount] = useState(3);
+  const [nCoefficients, setNCoefficients] = useState<string[]>(['', '', '']);
+  const [nRhs, setNRhs] = useState('');
 
   const inputSetters: Record<InputName, (value: string) => void> = {
     a: setA,
@@ -32,6 +40,36 @@ function InputForm(){
   //Routes input update to corresponding state setter
   const handleInputChange = (name: InputName, value: string) => {
     inputSetters[name](value);
+  };
+
+  //Updates variable count while preserving existing cofficients
+  const handleNVariableCountChange = (count: number) => {
+    if (Number.isNaN(count)) {
+      return;
+    }
+
+    const clampedCount = Math.min(
+      MAX_VARIABLE_COUNT,
+      Math.max(MIN_VARIABLE_COUNT, Math.trunc(count))
+    );
+
+    setNVariableCount(clampedCount);
+
+    setNCoefficients((previousCoefficients) =>
+      Array.from(
+        { length: clampedCount },
+        (_, index) => previousCoefficients[index] ?? ''
+      )
+    );
+  };
+
+  //Updates one coefficient in the dynamic n-variable input array
+  const handleNCoefficientChange = (index: number, value: string) => {
+    setNCoefficients((previousCoefficients) =>
+      previousCoefficients.map((coefficient, currentIndex) =>
+        currentIndex === index ? value : coefficient
+      )
+    );
   };
 
   //Store solver results
@@ -104,6 +142,12 @@ function InputForm(){
       mode={mode}
       values={{ a, b, c, d, m }}
       onChange={handleInputChange}
+      nVariableCount={nVariableCount}
+      nCoefficients={nCoefficients}
+      nRhs={nRhs}
+      onNVariableCountChange={handleNVariableCountChange}
+      onNCoefficientChange={handleNCoefficientChange}
+      onNRhsChange={setNRhs}
     />
 
     <button onClick = {handleSolve}>Solve</button>
