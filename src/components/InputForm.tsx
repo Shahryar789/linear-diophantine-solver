@@ -7,6 +7,7 @@ import { solveLinearCongruence, type CongruenceResult } from '../utils/solveLine
 import TwoVariableResult from './TwoVariableResult';
 import ThreeVariableResult from './ThreeVariableResult';
 import LinearCongruenceResult from './LinearCongruenceResult';
+import { solveLinearDiophantineN, type DiophantineNResult } from '../utils/solveLinearDiophantineN';
 
 type InputName = 'a' | 'b' | 'c' | 'd' | 'm';
 
@@ -76,12 +77,14 @@ function InputForm(){
   const [result2, setResult2] = useState<DiophantineResult | null>(null);
   const [result3, setResult3] = useState<Diophantine3Result | null>(null);
   const [resultCongruence, setResultCongruence] = useState<CongruenceResult | null>(null);
+  const [resultN, setResultN] = useState<DiophantineNResult | null>(null);
 
   //Clears results before setting current mode's result
   const clearResults = () => {
     setResult2(null);
     setResult3(null);
     setResultCongruence(null);
+    setResultN(null);
   }; 
 
   //Runs solver when "Solve" button is clicked
@@ -115,9 +118,30 @@ function InputForm(){
       return;
     }
     if (mode === 'n') {
-      // Placeholder for n-variable solver
+      if (
+        nCoefficients.some(
+          (coefficient) => coefficient.trim() === ''
+        ) ||
+        nRhs.trim() === ''
+      ) {
+        return;
+      }
+      
+      const numericCoefficients = nCoefficients.map(
+        (coefficient) => Number(coefficient)
+      );
+    
+      const numericRhs = Number(nRhs);
+    
+      setResultN(
+        solveLinearDiophantineN(
+          numericCoefficients, 
+          numericRhs
+        )
+      );
       return;
     }
+
     if (mode === 'congruence') {
       if (a.trim() === '' || b.trim() === '' || m.trim() === '') {
         return;
@@ -155,6 +179,14 @@ function InputForm(){
     {result2 && <TwoVariableResult result={result2} />}
     
     {result3 && <ThreeVariableResult result={result3} />}
+
+    {resultN && (
+      <div>
+        <h3>n-Variable Result</h3>
+        <p>gcd: {resultN.gcd}</p>
+        <p>{resultN.message}</p>
+      </div>
+    )}
 
     {resultCongruence && (
       <LinearCongruenceResult result={resultCongruence} />
