@@ -20,9 +20,7 @@ function NVariableResult({ result }: NVariableResultProps) {
           <>
             <p>Particular solution:</p>
             <p>
-              x = (
-              {result.particular.join(', ')}
-              )
+              x = ({result.particular.join(', ')})
             </p>
           </>
         )}
@@ -36,6 +34,19 @@ function NVariableResult({ result }: NVariableResultProps) {
                 v{index + 1} = ({basisVector.join(', ')})
               </p>
             ))}
+          </>
+        )}
+
+        {result.particular && result.basis && result.basis.length > 0 && (
+          <>
+            <p>General solution:</p>
+            <p>
+              x = ({result.particular.join(', ')})
+              {result.basis.map((_, index) => (
+                <span key={index}> 
+                {' '}+ t{index + 1}v{index + 1}</span>
+              ))}
+            </p>
           </>
         )}
       </div>
