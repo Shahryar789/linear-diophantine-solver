@@ -8,6 +8,7 @@ import TwoVariableResult from './TwoVariableResult';
 import ThreeVariableResult from './ThreeVariableResult';
 import LinearCongruenceResult from './LinearCongruenceResult';
 import { solveLinearDiophantineN, type DiophantineNResult } from '../utils/solveLinearDiophantineN';
+import NVariableResult from './NVariableResult';
 
 type InputName = 'a' | 'b' | 'c' | 'd' | 'm';
 
@@ -180,13 +181,7 @@ function InputForm(){
     
     {result3 && <ThreeVariableResult result={result3} />}
 
-    {resultN && (
-      <div>
-        <h3>n-Variable Result</h3>
-        <p>gcd: {resultN.gcd}</p>
-        <p>{resultN.message}</p>
-      </div>
-    )}
+    {resultN && <NVariableResult result={resultN} />}
 
     {resultCongruence && (
       <LinearCongruenceResult result={resultCongruence} />
