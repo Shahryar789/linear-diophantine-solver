@@ -1,7 +1,7 @@
 //Handles n-variable result display
 
 import { type DiophantineNResult } from '../utils/solveLinearDiophantineN';
-import { formatNVariableSolution } from '../utils/format';
+import { formatNVariableSolution, formatNVariableVectorSolution } from '../utils/format';
 
 type NVariableResultProps = {
     result: DiophantineNResult;
@@ -10,9 +10,14 @@ type NVariableResultProps = {
 //Renders the n-variable solver result separately from state and solve logic
 function NVariableResult({ result }: NVariableResultProps) {
   const coordinateSolutions = 
-  result.particular && result.basis
-    ? formatNVariableSolution(result.particular, result.basis)
-    : [];
+    result.particular && result.basis
+      ? formatNVariableSolution(result.particular, result.basis)
+      : [];
+  
+  const vectorSolution =
+    result.particular && result.basis
+      ? formatNVariableVectorSolution(result.particular, result.basis)
+      : '';
   
     return (
       <div>
@@ -50,6 +55,13 @@ function NVariableResult({ result }: NVariableResultProps) {
             {coordinateSolutions.map((solution, index) => (
               <p key={index}>{solution}</p>
             ))}
+          </>
+        )}
+
+        {vectorSolution && (
+          <>
+            <p>General solution (vector form):</p>
+            <p>{vectorSolution}</p>
           </>
         )}
       </div>

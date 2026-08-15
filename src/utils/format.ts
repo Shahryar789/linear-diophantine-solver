@@ -57,3 +57,22 @@ export function formatNVariableSolution(particular: number[], basis: number[][])
         return `x${coordinateIndex + 1} = ${formatLinearExpression(constant, coefficients, parameters)}`;
     });
 }
+
+//Formats the vector form of an n-variable general solution
+export function formatNVariableVectorSolution(
+    particular: number[], 
+    basis: number[][]
+): string {
+    const particularVector = `(${particular.join(', ')})`;
+
+    const basisTerms = basis.map(
+        (basisVector, index) => 
+          `t${index + 1}(${basisVector.join(', ')})`
+    );
+
+    if (basisTerms.length === 0) {
+        return `x = ${particularVector}`;
+    }
+
+    return `x = ${particularVector} + ${basisTerms.join(' + ')}`;
+}
