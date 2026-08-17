@@ -44,7 +44,7 @@ function InputForm(){
     inputSetters[name](value);
   };
 
-  //Updates variable count while preserving existing cofficients
+  //Updates variable count while preserving existing coefficients
   const handleNVariableCountChange = (count: number) => {
     if (Number.isNaN(count)) {
       return;
