@@ -63,4 +63,39 @@ describe('solveLinearDiophantineN', () => {
         expect(result.particular).toBeNull();
         expect(result.basis).toBeNull();
     });
+
+    it('returns a particular solution that satisfies the equation', () => {
+        const coefficients = [6, 9, 3];
+        const rhs = 30;
+
+        const result = solveLinearDiophantineN(coefficients, rhs);
+
+        expect(result.particular).not.toBeNull();
+
+        const value = coefficients.reduce(
+            (sum, coefficient, index) =>
+                sum + coefficient * result.particular![index],
+            0
+        )
+
+        expect(value).toBe(rhs);
+    });
+
+    it('returns basis vectors that satisfy the homogeneous equation', () => {
+        const coefficients = [6, 9, 3];
+
+        const result = solveLinearDiophantineN(coefficients, 30);
+        
+        expect(result.basis).not.toBeNull();
+
+        result.basis!.forEach((basisVector) => {
+            const value = coefficients.reduce(
+                (sum, coefficient, index) =>
+                    sum + coefficient * basisVector[index],
+                0
+            );
+
+            expect(value).toBe(0);
+        });
+    });
 });
