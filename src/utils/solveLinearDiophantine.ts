@@ -7,9 +7,9 @@ import { formatLinearExpression, formatVectorSolution2D } from "./format";
 export type DiophantineResult = {
     hasSolution: boolean,
     gcd: number;
-    particular?: {x: number; y: number}
-    step?: {dx: number; dy: number}
-    general?: {x: string; y: string; vector: string};
+    particular?: {x: number; y: number} | null;
+    step?: {dx: number; dy: number} | null;
+    general?: {x: string; y: string; vector: string} | null;
     message: string;
 };
 
@@ -28,6 +28,9 @@ export function solveLinearDiophantine(a: number, b: number, c: number): Diophan
         return {
             hasSolution: false,
             gcd: 0,
+            particular: null,
+            step: null,
+            general: null,
             message: "No solution: 0x + 0y ≠ nonzero c"
         };
     }
@@ -40,6 +43,9 @@ export function solveLinearDiophantine(a: number, b: number, c: number): Diophan
         return{
             hasSolution: false,
             gcd: result.gcd,
+            particular: null,
+            step: null,
+            general: null,
             message: result.message,
         };
     }
@@ -49,6 +55,9 @@ export function solveLinearDiophantine(a: number, b: number, c: number): Diophan
         return {
             hasSolution: false,
             gcd: result.gcd,
+            particular: null,
+            step: null,
+            general: null,
             message: "Unexpected solver state.",
         };
     }
