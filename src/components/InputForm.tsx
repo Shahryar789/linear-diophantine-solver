@@ -181,7 +181,13 @@ function InputForm(){
     
     {result3 && <ThreeVariableResult result={result3} />}
 
-    {resultN && <NVariableResult result={resultN} />}
+    {resultN && (
+      <NVariableResult 
+        result={resultN}
+        coefficients={nCoefficients.map((coefficient) => Number(coefficient))}
+        rhs={Number(nRhs)}
+      />
+    )}
 
     {resultCongruence && (
       <LinearCongruenceResult result={resultCongruence} />
