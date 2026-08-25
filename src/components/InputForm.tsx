@@ -88,6 +88,12 @@ function InputForm(){
     setResultN(null);
   }; 
 
+  //Clears the previous result when switching solver modes
+  const handleModeChance = (newMode: SolverMode) => {
+    clearResults();
+    setMode(newMode);
+  };
+
   //Runs solver when "Solve" button is clicked
   const handleSolve = () => {
     clearResults();
@@ -161,7 +167,9 @@ function InputForm(){
   <div>
     <h2>Linear Diophantine Solver</h2>
 
-    <ModeSelector mode = {mode} onModeChange = {setMode} />
+    <ModeSelector 
+      mode = {mode} 
+      onModeChange = {handleModeChance} />
 
     <SolverInputs
       mode={mode}
