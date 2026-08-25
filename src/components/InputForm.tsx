@@ -88,9 +88,37 @@ function InputForm(){
     setResultN(null);
   }; 
 
+  //Clears inputs when switching modes
+  const clearModeInputs = (currentMode: SolverMode) => {
+    if (currentMode === '2'){
+      setA('');
+      setB('');
+      setC('');
+    }
+
+    if(currentMode === '3') {
+      setA('');
+      setB('');
+      setC('');
+      setD('');
+    }
+
+    if(currentMode === 'congruence') {
+      setA('');
+      setB('');
+      setM('');
+    }
+
+    if(currentMode = 'n') {
+      setNCoefficients(Array(nVariableCount).fill(''));
+      setNRhs('');
+    }
+  };
+
   //Clears the previous result when switching solver modes
   const handleModeChance = (newMode: SolverMode) => {
     clearResults();
+    clearModeInputs(mode);
     setMode(newMode);
   };
 
