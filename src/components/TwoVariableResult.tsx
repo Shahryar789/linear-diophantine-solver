@@ -1,7 +1,7 @@
 //Handles two variable result display
 
 import { type DiophantineResult } from '../utils/solveLinearDiophantine';
-import { formatLinearExpression, formatVectorSolution2D } from '../utils/format';
+import MathExpression from './MathExpression';
 
 type TwoVariableResultProps = {
     result: DiophantineResult;
@@ -12,34 +12,52 @@ function TwoVariableResult({ result }: TwoVariableResultProps) {
     return (
         <div>
             <h3>2-Variable Result</h3>
+
             <p>gcd: {result.gcd}</p>
             <p>{result.message}</p>
 
             {result.particular && (
-              <p>
-                Particular solution: (x, y) = ({result.particular.x}, {result.particular.y})
-              </p>
+              <>
+                <p>Particular solution: </p>
+
+                <MathExpression
+                  expression={`(x, y) = (${result.particular.x}, ${result.particular.y})`}
+                  display
+                />
+              </>
             )}
 
-            {result.step && result.particular && (
+            {result.general && (
               <>
                 <p>General solution (component form):</p>
-                <p>x = {formatLinearExpression(result.particular.x, [result.step.dx])}</p>
-                <p>y = {formatLinearExpression(result.particular.y, [result.step.dy])}</p>
+                
+                <MathExpression
+                  expression={`x = ${toLatex(result.general.x)}`}
+                  display
+                />
+
+                <MathExpression
+                  expression={`y = ${toLatex(result.general.y)}`}
+                  display
+                />
 
                 <p>General solution (vector form):</p>
-                <p>
-                  {formatVectorSolution2D(
-                    result.particular.x, 
-                    result.particular.y,
-                    result.step.dx,
-                    result.step.dy
-                  )}   
-                </p>       
+
+                <MathExpression
+                  expression={toLatex(result.general.vector)}
+                  display
+                />  
               </>
             )}
         </div>
     );
+}
+
+//Converts ordinary variable notation into LaTeX
+function toLatex(expression: string): string {
+  return expression
+    .replace(/x(\d+)/g, 'x_{$1}')
+    .replace(/t(\d+)/g, 't_{$1}')
 }
 
 export default TwoVariableResult;
