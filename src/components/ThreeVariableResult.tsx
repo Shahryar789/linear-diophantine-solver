@@ -2,6 +2,7 @@
 
 import { type Diophantine3Result } from '../utils/solveLinearDiophantine3';
 import { formatLinearExpression, formatVectorSolution3D } from '../utils/format';
+import MathExpression from './MathExpression';
 
 type ThreeVariableResultProps = {
     result: Diophantine3Result;
@@ -16,39 +17,50 @@ function ThreeVariableResult({ result }: ThreeVariableResultProps) {
             <p>{result.message}</p>
 
             {result.particular && (
-              <p>
-                Particular solution: (x, y, z) = ({result.particular.x}, {result.particular.y}, {result.particular.z})
-              </p>
+              <>
+                <p>Particular solution:</p>
+
+                <MathExpression
+                  expression={`(x, y, z) = (${result.particular.x}, ${result.particular.y}, ${result.particular.z})`}
+                  display
+                />
+              </>
             )}
 
             {result.step && result.particular && (
               <>
                 <p>General solution (component form):</p>
-                <p>
-                  x ={' '}
-                  {formatLinearExpression(result.particular.x, result.step.dx, [
-                    't',
-                    's',
-                  ])}
-                </p>
-                <p>
-                  y ={' '}
-                  {formatLinearExpression(result.particular.y, result.step.dy, [
-                    't',
-                    's',
-                  ])}
-                </p>
-                <p>
-                  z ={' '}
-                  {formatLinearExpression(result.particular.z, result.step.dz, [
-                    't',
-                    's',
-                  ])}
-                </p>
+                
+                <MathExpression
+                  expression={`x = ${formatLinearExpression(
+                    result.particular.x,
+                    result.step.dx,
+                    ['t', 's']
+                  )}`}
+                  display
+                />
+
+                <MathExpression
+                  expression={`y = ${formatLinearExpression(
+                    result.particular.y,
+                    result.step.dy,
+                    ['t', 's']
+                  )}`}
+                  display
+                />
+
+                <MathExpression
+                  expression={`z = ${formatLinearExpression(
+                    result.particular.z,
+                    result.step.dz,
+                    ['t', 's']
+                  )}`}
+                  display
+                />
 
                 <p>General solution (vector form):</p>
-                <p>
-                  {formatVectorSolution3D(
+                <MathExpression
+                  expression= {formatVectorSolution3D(
                     result.particular.x,
                     result.particular.y,
                     result.particular.z,
@@ -56,7 +68,8 @@ function ThreeVariableResult({ result }: ThreeVariableResultProps) {
                     result.step.dy,
                     result.step.dz
                   )}
-                </p>
+                  display
+                />
               </>
             )}
         </div>
