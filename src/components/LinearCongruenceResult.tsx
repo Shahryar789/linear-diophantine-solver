@@ -1,6 +1,7 @@
 //Handles linear congruence result display
 
 import { type CongruenceResult as CongruenceSolverResult } from '../utils/solveLinearCongruence';
+import MathExpression from './MathExpression';
 
 type LinearCongruenceResultProps = {
     result: CongruenceSolverResult;
@@ -17,13 +18,37 @@ function LinearCongruenceResult({ result }: LinearCongruenceResultProps) {
         {result.hasSolution && (
           <>
             {typeof result.solution === "number" ? (
-              <p>One solution: x = {result.solution}</p>
+              <>
+                <p>One solution:</p>
+
+                <MathExpression
+                  expression={`x = ${result.solution}`}
+                  display
+              />
+              </>
             ) : (
-              <p>One solution: x = any integer</p>
+              <>
+                <p>One solution:</p>
+
+                <MathExpression
+                  expression="x \\in \\mathbb{Z}"
+                  display
+                />
+              </>
             )}
 
             {result.generalSolution && (
-              <p>General solution: {result.generalSolution}</p>
+              <>
+                <p>General solution:</p>
+
+                <MathExpression
+                  expression={result.generalSolution.replace(
+                    /=\s*(-?\d+)\s*\(mod\s+(-?\d+)\)/,
+                    '\\equiv $1 \\pmod{$2}'
+                  )}
+                  display
+                />
+              </>
             )}
           </>
         )}
