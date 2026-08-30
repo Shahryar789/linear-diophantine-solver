@@ -42,10 +42,9 @@ function LinearCongruenceResult({ result }: LinearCongruenceResultProps) {
                 <p>General solution:</p>
 
                 <MathExpression
-                  expression={result.generalSolution.replace(
-                    /=\s*(-?\d+)\s*\(mod\s+(-?\d+)\)/,
-                    '\\equiv $1 \\pmod{$2}'
-                  )}
+                  expression={result.generalSolution
+                    .replace('=', '\\equiv')
+                    .replace(/\(mod\s*(-?\d+)\)/, '\\pmod{$1}')}
                   display
                 />
               </>
