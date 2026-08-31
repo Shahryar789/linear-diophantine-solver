@@ -2,13 +2,22 @@
 
 import { type DiophantineResult } from '../utils/solveLinearDiophantine';
 import MathExpression from './MathExpression';
+import LatticeVisualization from './LatticeVisualization';
 
 type TwoVariableResultProps = {
     result: DiophantineResult;
+    a: number;
+    b: number;
+    c: number;
 };
 
 //Renders the 2-variable solver result separately from state and solve logic
-function TwoVariableResult({ result }: TwoVariableResultProps) {
+function TwoVariableResult({ 
+    result,
+    a,
+    b,
+    c,
+ }: TwoVariableResultProps) {
     return (
         <div>
             <h3>2-Variable Result</h3>
@@ -48,6 +57,16 @@ function TwoVariableResult({ result }: TwoVariableResultProps) {
                   display
                 />  
               </>
+            )}
+
+            {result.particular && result.step && (
+              <LatticeVisualization
+                a={a}
+                b={b}
+                c={c}
+                particular={result.particular}
+                step={result.step}
+              />
             )}
         </div>
     );
