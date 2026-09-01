@@ -88,7 +88,7 @@ function LatticeVisualization({
             let yMin = Math.min(...yValues);
             let yMax = Math.max(...yValues);
 
-            //Enables visualization to have brething room
+            //Add breathing room around solutions
             const xPadding = Math.max(2, (xMax - xMin) * 0.15);
             const yPadding = Math.max(2, (yMax - yMin) * 0.15);
 
@@ -124,6 +124,21 @@ function LatticeVisualization({
               .append('g')
               .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+            const clipId = 'lattice-clip';
+
+            svg
+              .append('defs')
+              .append('clipPath')
+              .attr('id', clipId)
+              .append('rect')
+              .attr('width', innerWidth)
+              .attr('height', innerHeight);
+            
+            //Create seperate group for plotting area
+            const plot = chart
+              .append('g')
+              .attr('clip-path', `url(#${clipId})`);
+
             //Grid
             const xGrid = d3
               .axisBottom(xScale)
@@ -137,13 +152,13 @@ function LatticeVisualization({
               .tickSize(-innerWidth)
               .tickFormat(() => '');
 
-            chart
+            plot
               .append('g')
               .attr('class', 'grid')
               .attr('transform', `translate(0, ${innerHeight})`)
               .call(xGrid);
 
-            chart
+            plot
               .append('g')
               .attr('class', 'grid')
               .call(yGrid);
@@ -183,36 +198,33 @@ function LatticeVisualization({
             //
             //If b == 0:
             //  x = c / a
-            if (a !== 0 || b !== 0) {
-                if (b !== 0) {
-                    const linePoints: [number, number] [] = [
-                        [xMin, (c - a * xMin) / b],
-                        [xMax, (c - a * xMax) / b],
-                    ];
+            
+            const lineStartT = T_MIN;
+            const lineEndT = T_MAX;
 
-                    chart
-                      .append('line')
-                      .attr('x1', xScale(linePoints[0][0]))
-                      .attr('y1', yScale(linePoints[0][1]))
-                      .attr('x2', xScale(linePoints[1][0]))
-                      .attr('y2', yScale(linePoints[1][1]))
-                      .attr('stroke', 'currentColor')
-                      .attr('stroke-width', 2);
-                } else {
-                    const x = c / a;
+            const lineStart = {
+              x: particular.x + step.dx * lineStartT,
+              y: particular.y + step.dy * lineStartT,
+            };
 
-                    chart
-                      .append('line')
-                      .attr('x1', xScale(x))
-                      .attr('y1', yScale(yMin))
-                      .attr('x2', xScale(x))
-                      .attr('y2', yScale(yMax))
-                      .attr('stroke', 'currentColor')
-                      .attr('stroke-width', 2)
-                }
-            }
+            const lineEnd = {
+              x: particular.x + step.dx * lineEndT,
+              y: particular.y + step.dy * lineEndT,
+            };
+
+            plot
+              .append('line')
+              .attr('class', 'equation-line')
+              .attr('x1', xScale(lineStart.x))
+              .attr('y1', yScale(lineStart.y))
+              .attr('x2', xScale(lineEnd.x))
+              .attr('y2', yScale(lineEnd.y))
+              .attr('stroke', 'red')
+              .attr('stroke-width', 3)
+              .attr('stroke-opacity', 0.9);
+              
             //Integer solution points
-            chart
+            plot
               .selectAll('.solution-point')
               .data(points)
               .enter()
@@ -224,7 +236,7 @@ function LatticeVisualization({
               .attr('fill', 'currentColor');
             
             //Label each integer solution with its t-value
-            chart
+            plot
               .selectAll('.solution-label')
               .data(points)
               .enter()
