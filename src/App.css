@@ -40,3 +40,20 @@
 .read-the-docs {
   color: #888;
 }
+
+.t-slider {
+  width: 100%;
+  max-width: 700px;
+  margin-top: 20px;
+}
+
+.t-slider label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.t-slider input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+}
