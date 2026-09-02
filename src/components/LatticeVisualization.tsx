@@ -15,6 +15,8 @@ type LatticeVisualizationProps = {
         dx: number;
         dy: number;
     };
+    selectedT: number;
+    onTChange: (t: number) => void;
 };
 
 type Point = {
@@ -32,6 +34,8 @@ function LatticeVisualization({
     c,
     particular,
     step,
+    selectedT,
+    onTChange,
 }: LatticeVisualizationProps) {
     const svgRef = useRef<SVGSVGElement | null>(null);
 
@@ -246,8 +250,26 @@ function LatticeVisualization({
               .attr('y', (point) => yScale(point.y) - 7)
               .attr('font-size', 12)
               .text((point) => `t=${point.t}`);
-        }, [a, b, c, particular, step]);
-        
+            
+            //Find the solutions corresponding to the selected t-value
+            const selectedPoint = points.find(
+              (point) => point.t === selectedT
+            );
+
+            //Highlight selected solution
+            if (selectedPoint) {
+              plot
+                .append('circle')
+                .attr('class', 'selected-solution')
+                .attr('cx', xScale(selectedPoint.x))
+                .attr('cy', yScale(selectedPoint.y))
+                .attr('r', 9)
+                .attr('fill', 'none')
+                .attr('stroke', 'currentColor')
+                .attr('stroke-width', 3);
+            }
+          }, [a, b, c, particular, step, selectedT]);
+
         return (
             <div>
               <h3>Integer Lattice:</h3>
@@ -265,7 +287,23 @@ function LatticeVisualization({
               <p>
                 Integer solutions shown for t = {T_MIN} to {T_MAX}.
               </p>
+
+            <div className="t-slider">
+              <label htmlFor="t-slider">
+                Parameter t: <strong>{selectedT}</strong>
+              </label>
+
+            <input
+              id="t-slider"
+              type="range"
+              min={T_MIN}
+              max={T_MAX}
+              step={1}
+              value={selectedT}
+              onChange={(e) => onTChange(Number(e.target.value))}
+            />
             </div>
+          </div>
         );
 }
 

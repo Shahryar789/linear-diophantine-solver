@@ -1,5 +1,6 @@
 //Handles two variable result display
 
+import { useState } from 'react';
 import { type DiophantineResult } from '../utils/solveLinearDiophantine';
 import MathExpression from './MathExpression';
 import LatticeVisualization from './LatticeVisualization';
@@ -18,6 +19,9 @@ function TwoVariableResult({
     b,
     c,
  }: TwoVariableResultProps) {
+
+    const [selectedT, setSelectedT] = useState(0);
+
     return (
         <div>
             <h3>2-Variable Result</h3>
@@ -66,6 +70,8 @@ function TwoVariableResult({
                 c={c}
                 particular={result.particular}
                 step={result.step}
+                selectedT={selectedT}
+                onTChange={setSelectedT}
               />
             )}
         </div>
