@@ -109,7 +109,7 @@ function InputForm(){
       setM('');
     }
 
-    if(currentMode = 'n') {
+    if(currentMode === 'n') {
       setNCoefficients(Array(nVariableCount).fill(''));
       setNRhs('');
     }
@@ -213,7 +213,14 @@ function InputForm(){
 
     <button onClick = {handleSolve}>Solve</button>
 
-    {result2 && <TwoVariableResult result={result2} />}
+    {result2 && (
+      <TwoVariableResult 
+        result={result2}
+        a={Number(a)}
+        b={Number(b)}
+        c={Number(c)}
+      />
+    )}
     
     {result3 && <ThreeVariableResult result={result3} />}
 
