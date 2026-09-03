@@ -57,7 +57,7 @@ function LatticeVisualization({
         const margin = {
             top: 30,
             right: 30,
-            bottom: 30,
+            bottom: 55,
             left: 60,
         };
 
@@ -134,6 +134,7 @@ function LatticeVisualization({
               .append('defs')
               .append('clipPath')
               .attr('id', clipId)
+              .attr('clipPathUnits', 'userSpaceOnUse')
               .append('rect')
               .attr('width', innerWidth)
               .attr('height', innerHeight);
@@ -182,19 +183,31 @@ function LatticeVisualization({
 
             //Axis labels
             chart
-              .append('text')
-              .attr('x', innerWidth)
-              .attr('y', innerHeight + 40)
-              .attr('text-anchor', 'end')
-              .text('x')
-              
-            chart
-              .append('text')
-              .attr('x', -35)
-              .attr('y', -10)
-              .attr('text-anchor', 'start')
-              .text('y')
+            .append('text')
+            .attr('x', innerWidth / 2)
+            .attr('y', innerHeight + 40)
+            .attr('text-anchor', 'middle')
+            .attr('font-size', 13)
+            .attr('font-weight', 600)
+            .attr('fill', '#ffffff')
+            .attr('stroke', '#222222')
+            .attr('stroke-width', 2)
+            .attr('paint-order', 'stroke')
+            .text('x');
 
+            chart
+            .append('text')
+            .attr('x', -35)
+            .attr('y', -10)
+            .attr('text-anchor', 'start')
+            .attr('font-size', 13)
+            .attr('font-weight', 600)
+            .attr('fill', '#ffffff')
+            .attr('stroke', '#222222')
+            .attr('stroke-width', 2)
+            .attr('paint-order', 'stroke')
+            .text('y');
+            
             //Draw the equation ax + by = c
             //
             //If b != 0:
@@ -237,8 +250,10 @@ function LatticeVisualization({
               .attr('cx', (point) => xScale(point.x))
               .attr('cy', (point) => yScale(point.y))
               .attr('r', 5)
-              .attr('fill', 'currentColor');
-            
+              .attr('fill', '#f5f5f5')
+              .attr('stroke', '#333')
+              .attr('stroke-width', 1.5);
+
             //Label each integer solution with its t-value
             plot
               .selectAll('.solution-label')
@@ -248,7 +263,13 @@ function LatticeVisualization({
               .attr('class', 'solution-label')
               .attr('x', (point) => xScale(point.x) + 7)
               .attr('y', (point) => yScale(point.y) - 7)
-              .attr('font-size', 12)
+              .attr('font-size', 13)
+              .attr('font-weight', 600)
+              .attr('fill', '#ffffff')
+              .attr('stroke', '#222222')
+              .attr('stroke-width', 2)
+              .attr('paint-order', 'stroke')
+              .attr('pointer-events', 'none')
               .text((point) => `t=${point.t}`);
             
             //Find the solutions corresponding to the selected t-value
@@ -265,7 +286,7 @@ function LatticeVisualization({
                 .attr('cy', yScale(selectedPoint.y))
                 .attr('r', 9)
                 .attr('fill', 'none')
-                .attr('stroke', 'currentColor')
+                .attr('stroke', '#ffffff')
                 .attr('stroke-width', 3);
             }
           }, [a, b, c, particular, step, selectedT]);
