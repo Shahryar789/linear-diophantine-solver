@@ -75,7 +75,13 @@ function InputForm(){
   };
 
   //Store solver results
-  const [result2, setResult2] = useState<DiophantineResult | null>(null);
+  const [result2, setResult2] = useState<{
+    result: DiophantineResult;
+    a: number;
+    b: number;
+    c: number;
+  } | null>(null);
+
   const [result3, setResult3] = useState<Diophantine3Result | null>(null);
   const [resultCongruence, setResultCongruence] = useState<CongruenceResult | null>(null);
   const [resultN, setResultN] = useState<DiophantineNResult | null>(null);
@@ -135,7 +141,13 @@ function InputForm(){
       const numB = Number(b);
       const numC = Number(c);
 
-      setResult2(solveLinearDiophantine(numA, numB, numC));
+      setResult2({
+        result: solveLinearDiophantine(numA, numB, numC),
+        a: numA,
+        b: numB,
+        c: numC,
+      });
+      
       return;
     }
     
@@ -262,10 +274,10 @@ function InputForm(){
     {result2 && (
       <div className="results-section">
         <TwoVariableResult
-          result={result2}
-          a={Number(a)}
-          b={Number(b)}
-          c={Number(c)}
+          result={result2.result}
+          a={result2.a}
+          b={result2.b}
+          c={result2.c}
         />
       </div>
     )}
