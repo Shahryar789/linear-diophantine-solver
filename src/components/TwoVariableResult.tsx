@@ -1,4 +1,4 @@
-//Handles two-variable result display
+//Handles two variable result display
 
 import { useState } from 'react';
 import { type DiophantineResult } from '../utils/solveLinearDiophantine';
@@ -34,35 +34,16 @@ function TwoVariableResult({
         <>
           <p className="result-label">General solution</p>
 
-          <p>
-            Since the equation reduces to 0 = 0, every integer pair
-            (x, y) is a solution.
-          </p>
+          <p>Every integer pair (x, y) is a solution.</p>
 
           <p className="result-label">Component form</p>
 
-          <div className="math-block">
-            <MathExpression
-              expression="x=t"
-              display
-            />
-          </div>
-
-          <div className="math-block">
-            <MathExpression
-              expression="y=s"
-              display
-            />
-          </div>
+          <MathExpression expression="x=t" display />
+          <MathExpression expression="y=s" display />
 
           <p className="result-label">Vector form</p>
 
-          <div className="math-block">
-            <MathExpression
-              expression="(x,y)=(t,s)"
-              display
-            />
-          </div>
+          <MathExpression expression="(x,y)=(t,s)" display />
         </>
       ) : (
         <>
@@ -70,12 +51,10 @@ function TwoVariableResult({
             <>
               <p className="result-label">Particular solution</p>
 
-              <div className="math-block">
-                <MathExpression
-                  expression={`(x,y)=(${result.particular.x},${result.particular.y})`}
-                  display
-                />
-              </div>
+              <MathExpression
+                expression={`(x,y)=(${result.particular.x},${result.particular.y})`}
+                display
+              />
             </>
           )}
 
@@ -83,45 +62,39 @@ function TwoVariableResult({
             <>
               <p className="result-label">General solution</p>
 
-              <p className="result-label">Component form</p>
+              <p>Component form</p>
 
-              <div className="math-block">
-                <MathExpression
-                  expression={`x=${toLatex(result.general.x)}`}
-                  display
-                />
-              </div>
+              <MathExpression
+                expression={`x=${toLatex(result.general.x)}`}
+                display
+              />
 
-              <div className="math-block">
-                <MathExpression
-                  expression={`y=${toLatex(result.general.y)}`}
-                  display
-                />
-              </div>
+              <MathExpression
+                expression={`y=${toLatex(result.general.y)}`}
+                display
+              />
 
-              <p className="result-label">Vector form</p>
+              <p>Vector form</p>
 
-              <div className="math-block">
-                <MathExpression
-                  expression={toLatex(result.general.vector)}
-                  display
-                />
-              </div>
+              <MathExpression
+                expression={toLatex(result.general.vector)}
+                display
+              />
             </>
           )}
-        </>
-      )}
 
-      {result.particular && result.step && !isAllZeroCase && (
-        <LatticeVisualization
-          a={a}
-          b={b}
-          c={c}
-          particular={result.particular}
-          step={result.step}
-          selectedT={selectedT}
-          onTChange={setSelectedT}
-        />
+          {result.particular && result.step && (
+            <LatticeVisualization
+              a={a}
+              b={b}
+              c={c}
+              particular={result.particular}
+              step={result.step}
+              selectedT={selectedT}
+              onTChange={setSelectedT}
+            />
+          )}
+        </>
       )}
     </div>
   );
