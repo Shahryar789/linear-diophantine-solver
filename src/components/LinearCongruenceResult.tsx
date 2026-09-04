@@ -1,58 +1,48 @@
 //Handles linear congruence result display
 
-import { type CongruenceResult as CongruenceSolverResult } from '../utils/solveLinearCongruence';
+import {
+  type CongruenceResult as CongruenceSolverResult,
+} from '../utils/solveLinearCongruence';
 import MathExpression from './MathExpression';
 
 type LinearCongruenceResultProps = {
-    result: CongruenceSolverResult;
+  result: CongruenceSolverResult;
 };
 
 //Renders the linear congruence solver result separately from state and solve logic
-function LinearCongruenceResult({ result }: LinearCongruenceResultProps) {
-    return (
-      <div>
-        <h3>Linear Congruence Result</h3>
-        <p>gcd: {result.gcd}</p>
-        <p>{result.message}</p>
+function LinearCongruenceResult({
+  result,
+}: LinearCongruenceResultProps) {
+  return (
+    <div>
+      <h3>Linear Congruence Result</h3>
 
-        {result.hasSolution && (
-          <>
-            {typeof result.solution === "number" ? (
-              <>
-                <p>One solution:</p>
+      <p>gcd: {result.gcd}</p>
+      <p>{result.message}</p>
 
-                <MathExpression
-                  expression={`x = ${result.solution}`}
-                  display
-              />
-              </>
-            ) : (
-              <>
-                <p>One solution:</p>
+      {result.hasSolution && typeof result.solution === 'number' && (
+        <>
+          <p className="result-label">One solution</p>
 
-                <MathExpression
-                  expression="x \\in \\mathbb{Z}"
-                  display
-                />
-              </>
-            )}
+          <div className="math-block">
+            <MathExpression
+              expression={`x=${result.solution}`}
+              display
+            />
+          </div>
 
-            {result.generalSolution && (
-              <>
-                <p>General solution:</p>
+          <p className="result-label">General solution</p>
 
-                <MathExpression
-                  expression={result.generalSolution
-                    .replace('=', '\\equiv')
-                    .replace(/\(mod\s*(-?\d+)\)/, '\\pmod{$1}')}
-                  display
-                />
-              </>
-            )}
-          </>
-        )}
-      </div>
-    );
+          <div className="math-block">
+            <MathExpression
+              expression={(result.generalSolution ?? '')}
+              display
+            />
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 
 export default LinearCongruenceResult;
