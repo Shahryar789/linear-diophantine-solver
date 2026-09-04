@@ -18,29 +18,46 @@ function LinearCongruenceResult({
       <h3>Linear Congruence Result</h3>
 
       <p>gcd: {result.gcd}</p>
+      <p>modulus: {result.modulus}</p>
       <p>{result.message}</p>
 
-      {result.hasSolution && typeof result.solution === 'number' && (
+      {!result.hasSolution && (
+        <p className="result-label">No solution exists</p>
+      )}
+
+      {result.hasSolution && result.generalSolution === "x ∈ Z" && (
         <>
-          <p className="result-label">One solution</p>
-
-          <div className="math-block">
-            <MathExpression
-              expression={`x=${result.solution}`}
-              display
-            />
-          </div>
-
           <p className="result-label">General solution</p>
 
           <div className="math-block">
-            <MathExpression
-              expression={(result.generalSolution ?? '')}
-              display
-            />
+            <MathExpression expression="x \in \mathbb{Z}" display />
           </div>
         </>
       )}
+
+      {result.hasSolution &&
+        result.solution !== undefined &&
+        result.generalSolution !== "x ∈ Z" && (
+          <>
+            <p className="result-label">Particular solution</p>
+
+            <div className="math-block">
+              <MathExpression
+                expression={`x=${result.solution}`}
+                display
+              />
+            </div>
+
+            <p className="result-label">General solution</p>
+
+            <div className="math-block">
+              <MathExpression
+                expression={result.generalSolution ?? ""}
+                display
+              />
+            </div>
+          </>
+        )}
     </div>
   );
 }
