@@ -193,50 +193,106 @@ function InputForm(){
   return (
 
   <div>
-    <h2>Linear Diophantine Solver</h2>
+    <div className="solver-heading">
+      <h2>Solver</h2>
+    </div>
 
-    <ModeSelector 
-      mode = {mode} 
-      onModeChange = {handleModeChance} />
+    <div className="mode-section">
+      <p className="mode-section-title">Choose a problem type</p>
 
-    <SolverInputs
-      mode={mode}
-      values={{ a, b, c, d, m }}
-      onChange={handleInputChange}
-      nVariableCount={nVariableCount}
-      nCoefficients={nCoefficients}
-      nRhs={nRhs}
-      onNVariableCountChange={handleNVariableCountChange}
-      onNCoefficientChange={handleNCoefficientChange}
-      onNRhsChange={setNRhs}
-    />
+      <ModeSelector
+        mode={mode}
+        onModeChange={handleModeChance}
+      />
 
-    <button onClick = {handleSolve}>Solve</button>
+      <div className="mode-description">
+        {mode === '2' && (
+          <>
+            Solve <strong>ax + by = c</strong> for integer values of x and y.
+            The solver also provides the complete parameterized solution and
+            an integer-lattice visualization.
+          </>
+        )}
+
+        {mode === '3' && (
+          <>
+            Solve <strong>ax + by + cz = d</strong> for integer values of
+            x, y, and z. The result includes a particular solution and the
+            general solution.
+          </>
+        )}
+
+        {mode === 'n' && (
+          <>
+            Solve a linear Diophantine equation with between 2 and 10
+            variables using a generalized Extended Euclidean Algorithm.
+          </>
+        )}
+
+        {mode === 'congruence' && (
+          <>
+            Solve <strong>ax ≡ b (mod m)</strong> and determine all
+            solutions modulo m.
+          </>
+        )}
+      </div>
+    </div>
+
+    <div className="solver-inputs">
+      <SolverInputs
+        mode={mode}
+        values={{ a, b, c, d, m }}
+        onChange={handleInputChange}
+        nVariableCount={nVariableCount}
+        nCoefficients={nCoefficients}
+        nRhs={nRhs}
+        onNVariableCountChange={handleNVariableCountChange}
+        onNCoefficientChange={handleNCoefficientChange}
+        onNRhsChange={setNRhs}
+      />
+    </div>
+
+    <button
+      className="solve-button"
+      onClick={handleSolve}
+    >
+      Solve
+    </button>
 
     {result2 && (
-      <TwoVariableResult 
-        result={result2}
-        a={Number(a)}
-        b={Number(b)}
-        c={Number(c)}
-      />
+      <div className="results-section">
+        <TwoVariableResult
+          result={result2}
+          a={Number(a)}
+          b={Number(b)}
+          c={Number(c)}
+        />
+      </div>
     )}
-    
-    {result3 && <ThreeVariableResult result={result3} />}
+
+    {result3 && (
+      <div className="results-section">
+        <ThreeVariableResult result={result3} />
+      </div>
+    )}
 
     {resultN && (
-      <NVariableResult 
-        result={resultN}
-        coefficients={nCoefficients.map((coefficient) => Number(coefficient))}
-        rhs={Number(nRhs)}
-      />
+      <div className="results-section">
+        <NVariableResult
+          result={resultN}
+          coefficients={nCoefficients.map((coefficient) => Number(coefficient))}
+          rhs={Number(nRhs)}
+        />
+      </div>
     )}
 
     {resultCongruence && (
-      <LinearCongruenceResult result={resultCongruence} />
-   )}
+      <div className="results-section">
+        <LinearCongruenceResult result={resultCongruence} />
+      </div>
+    )}
   </div>
- );
+  );
 }
 
 export default InputForm;

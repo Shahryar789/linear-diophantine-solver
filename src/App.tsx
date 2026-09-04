@@ -1,15 +1,22 @@
 import InputForm from './components/InputForm';
-
-//Main application
-//Renders input form and displays results
+import './App.css';
 
 function App(){
   return(
-    <div style={{padding: '20px', maxWidth: '600px', margin: '0 auto'}}>
-      <h1>Linear Diophantine Equation Solver</h1>
-      {/* Future component for entering coefficients (a, b, c)*/}
-      <InputForm />
-    </div>
+    <main className="app">
+      <header className="app-header">
+        <h1>Linear Diophantine Equation Solver</h1>
+
+        <p>
+          Explore integer solutions to linear Diophantine equations and
+          congruences using exact arithmetic and visual representations.
+        </p>
+      </header>
+
+      <section className="solver-card">
+        <InputForm />
+      </section>
+    </main>
   );
 }
 

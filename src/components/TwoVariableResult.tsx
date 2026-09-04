@@ -31,35 +31,45 @@ function TwoVariableResult({
 
             {result.particular && (
               <>
-                <p>Particular solution: </p>
+                <p className="result-label">Particular solution</p>
 
-                <MathExpression
-                  expression={`(x, y) = (${result.particular.x}, ${result.particular.y})`}
-                  display
-                />
+                <div className="math-block">
+                  <MathExpression
+                    expression={`(x, y) = (${result.particular.x}, ${result.particular.y})`}
+                    display
+                  />
+                </div>
               </>
             )}
 
             {result.general && (
               <>
-                <p>General solution (component form):</p>
+                <p className="result-label">General solution</p>
+
+                <p className="result-label">Component form</p>  
                 
-                <MathExpression
-                  expression={`x = ${toLatex(result.general.x)}`}
-                  display
-                />
+                <div className="math-block">
+                  <MathExpression
+                    expression={`x = ${toLatex(result.general.x)}`}
+                    display
+                  />
+                </div>
 
-                <MathExpression
-                  expression={`y = ${toLatex(result.general.y)}`}
-                  display
-                />
+                <div className="math-block">
+                  <MathExpression
+                    expression={`y = ${toLatex(result.general.y)}`}
+                    display
+                  />
+                </div>
 
-                <p>General solution (vector form):</p>
+                <p className="result-label">Vector form</p>
 
-                <MathExpression
-                  expression={toLatex(result.general.vector)}
-                  display
-                />  
+                <div className="math-block">
+                  <MathExpression
+                    expression={toLatex(result.general.vector)}
+                    display
+                  />
+                </div>
               </>
             )}
 
