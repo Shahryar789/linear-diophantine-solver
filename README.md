@@ -1,35 +1,123 @@
 # Linear Diophantine Solver
 
-A web based tool to solve Diophantine Equations of the form:
+An interactive web application for solving and exploring **Linear Diophantine Equations** and **Linear Congruences**.
+It combines number theory with a modern **React + TypeScript** interface, it computes integer solutions, parameterizations, vector forms, and visualizes two-variable solutions on an interactive integer lattice.
 
-```
-ax + by = c
-```
+## Live Demo
 
-It uses the **Extended Euclidean Algorithm** to find integer solutions if they exist and then provides a general parametric form solution.
+[Linear Diophantine Solver](https://shahryar789.github.io/linear-diophantine-solver/)
 
 ___
 
 ## Features
 
-- Solving Diophantine Equations of the form ax + by = c
-- Find if possible solutions exist
-- Return one specific base case solutions alongside a set of general solutions
-- Fully client side
-- Built using **Vite**, **React**, and **TypeScript**
+### Linear Diophantine Equations
 
-___
+Solve equations of the form
 
-## Mathematics
+\[
+a_1x_1 + a_2x_2 + \cdots + a_nx_n = d
+\]
 
-This application employs the Extended Euclidean Algorithms to:
+Supports:
 
-- Verify if the **gcd(a,b)** divides **c** (to determine if a solution exists)
-- Find a specific solution
-- Generate a expression for all integer solutions with respect a parameter **t**
+- 2‑variable equations  
+- 3‑variable equations  
+- General equations (2–10 variables)  
+- Particular integer solutions  
+- Complete parameterized solutions  
+- Vector‑form solutions  
+- Homogeneous basis vectors  
+- Solution verification  
+- Detection of no integer solutions  
+- Detection of infinitely many solutions
 
-___
+The solver uses the **Extended Euclidean Algorithm** as its foundation.
 
-## License
+### Linear Congruences
 
-MIT License.
+Solve congruences of the form:
+
+\[
+ax \equiv b \pmod m
+\]
+
+The solver determines existence conditions and displays the full modular solution set.
+
+### Integer Lattice Visualization
+
+For two‑variable equations, the app provides an interactive D3 visualization showing:
+
+- Integer solution points  
+- The equation line  
+- Parameter values for each solution  
+- Selected solution highlight  
+- Interactive parameter slider  
+
+### Mathematical Notation
+
+All mathematical expressions are rendered using **KaTeX** for clean, readable notation.
+
+---
+
+## Mathematical Methods
+
+### Extended Euclidean Algorithm
+
+Computes integers \(x\) and \(y\) such that:
+
+\[
+ax + by = \gcd(a,b)
+\]
+
+### General Solution Structure
+
+When solutions exist, the solver provides:
+
+- A particular solution  
+- A basis for the homogeneous solution space  
+
+This yields the complete integer solution set using integer parameters.
+
+---
+
+## Technology
+
+- React  
+- TypeScript  
+- Vite  
+- D3.js  
+- KaTeX  
+- Vitest  
+- GitHub Actions  
+- GitHub Pages  
+
+---
+
+## Project Structure
+
+```text
+src/
+├── components/
+│   ├── InputForm.tsx
+│   ├── ModeSelector.tsx
+│   ├── SolverInputs.tsx
+│   ├── MathExpression.tsx
+│   ├── TwoVariableResult.tsx
+│   ├── ThreeVariableResult.tsx
+│   ├── NVariableResult.tsx
+│   ├── LinearCongruenceResult.tsx
+│   └── LatticeVisualization.tsx
+│
+├── utils/
+│   ├── mathUtils.ts
+│   ├── format.ts
+│   ├── solveLinearDiophantine.ts
+│   ├── solveLinearDiophantine3.ts
+│   ├── solveLinearDiophantineN.ts
+│   ├── solveLinearCongruence.ts
+│   └── verifySolution.ts
+│
+├── App.tsx
+├── App.css
+└── index.css
