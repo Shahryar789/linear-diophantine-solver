@@ -1,7 +1,7 @@
 # Linear Diophantine Solver
 
 An interactive web application for solving and exploring **Linear Diophantine Equations** and **Linear Congruences**.
-It combines number theory with a modern **React + TypeScript** interface, it computes integer solutions, parameterizations, vector forms, and visualizes two-variable solutions on an interactive integer lattice.
+It combines number theory with a modern **React + TypeScript** interface. It computes integer solutions, parameterizations, vector forms, and visualizes two-variable solutions on an interactive integer lattice.
 
 ## Live Demo
 
