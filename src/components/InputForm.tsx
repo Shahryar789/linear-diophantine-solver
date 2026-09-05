@@ -84,7 +84,12 @@ function InputForm(){
 
   const [result3, setResult3] = useState<Diophantine3Result | null>(null);
   const [resultCongruence, setResultCongruence] = useState<CongruenceResult | null>(null);
-  const [resultN, setResultN] = useState<DiophantineNResult | null>(null);
+  
+  const [resultN, setResultN] = useState<{
+    result: DiophantineNResult;
+    coefficients: number[];
+    rhs: number;
+  } | null>(null);
 
   //Clears results before setting current mode's result
   const clearResults = () => {
@@ -180,12 +185,15 @@ function InputForm(){
     
       const numericRhs = Number(nRhs);
     
-      setResultN(
-        solveLinearDiophantineN(
-          numericCoefficients, 
+      setResultN({
+        result: solveLinearDiophantineN(
+          numericCoefficients,
           numericRhs
-        )
-      );
+        ),
+        coefficients: numericCoefficients,
+        rhs: numericRhs,
+      });
+
       return;
     }
 
@@ -291,9 +299,9 @@ function InputForm(){
     {resultN && (
       <div className="results-section">
         <NVariableResult
-          result={resultN}
-          coefficients={nCoefficients.map((coefficient) => Number(coefficient))}
-          rhs={Number(nRhs)}
+          result={resultN.result}
+          coefficients={resultN.coefficients}
+          rhs={resultN.rhs}
         />
       </div>
     )}
